@@ -1,0 +1,168 @@
+{
+   "summary":{
+      "collapsed":0,
+      "numRanks":10,
+      "partiallyMatching":0,
+      "currEnd":9,
+      "fullyMatching":9,
+      "totalMatching":9,
+      "currStart":1,
+      "estimatedCounts":false
+   },
+   "results":[
+      {
+         "liveUrl":"https://www.cass.city.ac.uk/staging/labs/danny/student-profiles/junlei-hu",
+         "docNum":2,
+         "title":"Junlei Hu",
+         "metaData":{
+            "P":"business",
+            "I":"banking",
+            "K":"https://www.cass.city.ac.uk/__data/assets/image/0007/384703/junlei-hu-200px.jpg",
+            "N":"british"
+         }
+      },
+      {
+         "liveUrl":"https://www.cass.city.ac.uk/staging/labs/danny/student-profiles/minjie-gao",
+         "docNum":1,
+         "title":"Minjie Gao",
+         "metaData":{
+            "P":"business",
+            "I":"banking",
+            "K":"https://www.cass.city.ac.uk/__data/assets/image/0007/375586/minjie-gao-200px.jpg",
+            "N":"polish"
+         }
+      },
+      {
+         "liveUrl":"https://www.cass.city.ac.uk/staging/labs/danny/student-profiles/nick-bacon",
+         "docNum":6,
+         "title":"Nick Bacon",
+         "metaData":{
+            "P":"computer science",
+            "I":"digital",
+            "K":"https://www.cass.city.ac.uk/__data/assets/image/0004/272488/Nick-Bacon.jpg",
+            "N":"polish"
+         }
+      },
+      {
+         "liveUrl":"https://www.cass.city.ac.uk/staging/labs/danny/student-profiles/paolo-aversa",
+         "docNum":7,
+         "title":"Paolo Aversa",
+         "metaData":{
+            "P":"business",
+            "I":"banking",
+            "K":"https://www.cass.city.ac.uk/__data/assets/image/0007/272491/paolo-aversa-200px.jpg",
+            "N":"british"
+         }
+      },
+      {
+         "liveUrl":"https://www.cass.city.ac.uk/staging/labs/danny/student-profiles/thorsten-beck",
+         "docNum":8,
+         "title":"Thorsten Beck",
+         "metaData":{
+            "P":"computer science",
+            "I":"digital",
+            "K":"https://www.cass.city.ac.uk/__data/assets/image/0016/346300/Thorsten-Beck-200px.jpg",
+            "N":"british"
+         }
+      },
+      {
+         "liveUrl":"https://www.cass.city.ac.uk/staging/labs/danny/student-profiles/mustafa-kavas",
+         "docNum":3,
+         "title":"Mustafa Kavas",
+         "metaData":{
+            "P":"fashion",
+            "I":"digital",
+            "K":"https://www.cass.city.ac.uk/__data/assets/image/0006/272454/Andriopoulos,-Costas.jpg",
+            "N":"polish"
+         }
+      },
+      {
+         "liveUrl":"https://www.cass.city.ac.uk/staging/labs/danny/student-profiles/fabienne-chedid",
+         "docNum":0,
+         "title":"Student Profiles at City, University of London",
+         "metaData":{
+            "P":"computer science",
+            "I":"banking",
+            "K":"https://www.cass.city.ac.uk/__data/assets/image/0010/416953/fabienne-chedid-200px.jpg",
+            "N":"dutch"
+         }
+      },
+      {
+         "liveUrl":"https://www.cass.city.ac.uk/staging/labs/danny/student-profiles/oguz-a.-acar",
+         "docNum":5,
+         "title":"Oguz A. Acar",
+         "metaData":{
+            "P":"fashion",
+            "I":"digital",
+            "K":"https://www.cass.city.ac.uk/__data/assets/image/0008/346175/Oguz_Acar-200px.jpg",
+            "N":"dutch"
+         }
+      },
+      {
+         "liveUrl":"https://www.cass.city.ac.uk/staging/labs/danny/student-profiles/costas-andriopoulos",
+         "docNum":4,
+         "title":"Costas Andriopoulos",
+         "metaData":{
+            "P":"business",
+            "I":"digital",
+            "K":"https://www.cass.city.ac.uk/__data/assets/image/0006/349845/amir-alizadeh-masoodian-200px.jpg",
+            "N":"british"
+         }
+      }
+   ],
+   "facets":[
+      {
+         "name":"Industry",
+         "field":"I",
+         "options":[
+            {
+               "v":"digital",
+               "c":5
+            },
+            {
+               "v":"banking",
+               "c":4
+            }
+         ]
+      },
+      {
+         "name":"Nationality",
+         "field":"N",
+         "options":[
+            {
+               "v":"british",
+               "c":4
+            },
+            {
+               "v":"polish",
+               "c":3
+            },
+            {
+               "v":"dutch",
+               "c":2
+            }
+         ]
+      },
+      {
+         "name":"Programme",
+         "field":"P",
+         "options":[
+            {
+               "v":"business",
+               "c":4
+            },
+            {
+               "v":"computer science",
+               "c":3
+            },
+            {
+               "v":"fashion",
+               "c":2
+            }
+         ]
+      }
+   ],
+   "params":{
+
+   }
+}
