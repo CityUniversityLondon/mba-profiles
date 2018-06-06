@@ -82,6 +82,7 @@ class App extends Component {
       if(e.name === 'Nationality')
         e.options.forEach( el => a.push(el.v)) 
     })
+    a.unshift('all')
       return a
   }
 
@@ -92,14 +93,52 @@ class App extends Component {
       if(e.name === 'Programme')
         e.options.forEach( el => a.push(el.v)) 
     })
+    a.unshift('all')
       return a
   }
 
   filterProfiles = profiles => {
     const { selectedIndustry, selectedProgramme, selectedNationality } = this.props
     console.log(selectedProgramme)
-    return profiles.filter(profiles => profiles.metaData.I === selectedIndustry
+    switch (true){
+      //Industry = all & Programme = all & Nationality = all
+      
+      //Industry = all & Programme = select & Nationality = select
+      case (selectedIndustry === 'all' && selectedProgramme !== 'all' && selectedNationality !== 'all'):
+
+        return profiles.filter(profiles => 
+      profiles.metaData.P === selectedProgramme && profiles.metaData.N === selectedNationality)
+      //Industry = select & Programme = all & Nationality = select
+      case (selectedIndustry !== 'all' && selectedProgramme === 'all' && selectedNationality !== 'all'):
+
+        return profiles.filter(profiles => profiles.metaData.I === selectedIndustry
+      && profiles.metaData.N === selectedNationality)
+      //Industry = select & Programme = select & Nationality = all
+      case (selectedIndustry !== 'all' && selectedProgramme !== 'all' && selectedNationality === 'all'):
+
+        return profiles.filter(profiles => profiles.metaData.I === selectedIndustry
+     && profiles.metaData.P === selectedProgramme)
+      //Industry = all & Programme = all & Nationality = select
+      case (selectedIndustry === 'all' && selectedProgramme === 'all' && selectedNationality !== 'all'):
+
+        return profiles.filter(profiles => profiles.metaData.N === selectedNationality)
+      //Industry = all & Programme = select & Nationality = all
+      case (selectedIndustry === 'all' && selectedProgramme !== 'all' && selectedNationality === 'all'):
+
+        return profiles.filter(profiles => profiles.metaData.P === selectedProgramme)
+      //Industry = select & Programme = all & Nationality = all
+      case (selectedIndustry !== 'all' && selectedProgramme === 'all' && selectedNationality === 'all'):
+
+        return profiles.filter(profiles => profiles.metaData.I === selectedIndustry) 
+      //Industry = select & Programme = select & Nationality = select
+      case (selectedIndustry !== 'all' && selectedProgramme !== 'all' && selectedNationality !== 'all'):
+
+        return profiles.filter(profiles => profiles.metaData.I === selectedIndustry
      && profiles.metaData.P === selectedProgramme && profiles.metaData.N === selectedNationality)
+
+      default:
+        return profiles
+    }
   }
 
   render() {

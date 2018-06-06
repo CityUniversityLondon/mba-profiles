@@ -3,7 +3,7 @@ import { REQUEST_PROFILES, RECEIVE_PROFILES, INVALIDATE_PROFILES,
  SELECT_INDUSTRY, SELECT_NATIONALITY, SELECT_PROGRAMME, GET_INDUSTRY, NEXT_PAGE_INFO } from '../actions'
 
 
-const selectedIndustry = (state = 'digital', action) => {
+const selectedIndustry = (state = 'all', action) => {
   switch (action.type) {
     case SELECT_INDUSTRY:
       return action.industry
@@ -12,7 +12,7 @@ const selectedIndustry = (state = 'digital', action) => {
   }
 }
 
-const selectedNationality = (state = 'british', action) => {
+const selectedNationality = (state = 'all', action) => {
   switch (action.type) {
     case SELECT_NATIONALITY:
       return action.nationality
@@ -21,7 +21,7 @@ const selectedNationality = (state = 'british', action) => {
   }
 }
 
-const selectedProgramme = (state = 'business', action) => {
+const selectedProgramme = (state = 'all', action) => {
   switch (action.type) {
     case SELECT_PROGRAMME:
       return action.programme
