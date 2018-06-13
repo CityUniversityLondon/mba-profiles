@@ -127,7 +127,7 @@ class MainPage extends PureComponent {
     if(e.name === 'Industry' )
       e.options.forEach( el => a.push(el.v))
   })
-   a.unshift('all')
+   a.unshift('-- Industry --')
     return a
   }
 
@@ -138,7 +138,7 @@ class MainPage extends PureComponent {
       if(e.name === 'Nationality')
         e.options.forEach( el => a.push(el.v)) 
     })
-    a.unshift('all')
+    a.unshift('-- Nationality --')
       return a
   }
 
@@ -149,7 +149,7 @@ class MainPage extends PureComponent {
       if(e.name === 'Programme')
         e.options.forEach( el => a.push(el.v)) 
     })
-    a.unshift('all')
+    a.unshift('-- Programme --')
       return a
   }
 
