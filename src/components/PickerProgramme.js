@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const PickerProgramme = ({ value, onChange, options }) => (
-  <div>
+  <div className="filter--box filter--box--programmeas">
     <label className='sr-only'>Programme</label>
     <select onChange={e => onChange(e.target.value)}
             value={value}>

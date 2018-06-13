@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const PickerNationality = ({ value, onChange, options }) => (
-  <div>
+  <div className="filter--box filter--box--nationality">
     <label className="sr-only">Nationality</label>
     <select onChange={e => onChange(e.target.value)}
             value={value}>

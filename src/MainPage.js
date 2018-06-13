@@ -9,9 +9,11 @@ import Profiles from './components/Profiles'
 import PickerIdustry from './components/PickerIdustry'
 import PickerNationality from './components/PickerNationality'
 import PickerProgramme from './components/PickerProgramme'
+import Progressbar from './components/Progressbar'
 import PropTypes from 'prop-types'
 import Students from './studentJson'
-import queryString from 'query-string'
+import qs from 'qs';
+
 
 
 
@@ -39,14 +41,18 @@ class MainPage extends PureComponent {
     .then(response => response.json())
     .then(json => dispatch(getIndusrty(['3','4','5'])))
 
-    const parsed = queryString.parse(this.props.history.location.search)
+
+
+    const parsed = qs.parse(this.props.history.location.search, { ignoreQueryPrefix: true })
     console.log(parsed)
     
-    if(parsed.industry != undefined){this.props.dispatch(selectIndustry(parsed.industry))}
+    if(parsed.industry !== undefined){this.props.dispatch(selectIndustry(parsed.industry))}
       
-    if(parsed.nationality != undefined){this.props.dispatch(selectNationality(parsed.nationality))}
+    if(parsed.nationality !== undefined){
+      console.log('nationality')
+      this.props.dispatch(selectNationality(parsed.nationality))}
       
-    if(parsed.programme != undefined){this.props.dispatch(selectProgramme(parsed.programme))}  
+    if(parsed.programme !== undefined){this.props.dispatch(selectProgramme(parsed.programme))}  
   }
 
   componentDidMount() {
@@ -66,7 +72,7 @@ class MainPage extends PureComponent {
 
   getHistory = () =>{
     const h = this.props.location.search
-    const parsed = queryString.parse(h)
+    const parsed = qs.parse(h, { ignoreQueryPrefix: true })
     console.log(parsed)
     return parsed
   }
@@ -79,7 +85,7 @@ class MainPage extends PureComponent {
     this.props.dispatch(selectIndustry(nextIndus))
     const h = this.getHistory()
     h.industry = nextIndus
-    const stringfiy = queryString.stringify(h)
+    const stringfiy = qs.stringify(h)
     this.props.history.push('?'+stringfiy)
   }
 
@@ -87,7 +93,7 @@ class MainPage extends PureComponent {
     this.props.dispatch(selectNationality(nextNat))
     const h = this.getHistory()
     h.nationality = nextNat
-    const stringfiy = queryString.stringify(h)
+    const stringfiy = qs.stringify(h)
     this.props.history.push('?'+stringfiy)
     
   }
@@ -96,22 +102,26 @@ class MainPage extends PureComponent {
     this.props.dispatch(selectProgramme(nextProg))
     const h = this.getHistory()
     h.programme = nextProg
-    const stringfiy = queryString.stringify(h)
+    const stringfiy = qs.stringify(h)
     this.props.history.push('?'+stringfiy)
   }
   
   loadMore = () => {
     const { dispatch, selectedIndustry, selectedNationality, selectedProgramme, receiveNextPageInfo } = this.props
-    dispatch(loadMore( selectedIndustry, selectedNationality, selectedProgramme, receiveNextPageInfo ))
+    console.log()
+    dispatch(loadMore( selectedIndustry, selectedNationality, selectedProgramme, 
+      receiveNextPageInfo.page, receiveNextPageInfo.perPage, receiveNextPageInfo.totalPages, receiveNextPageInfo.currEnd ))
   }
 
-  getFacets = Students => {
-    const a = Students.facets.map(child => child)
-    return a
+  getFacets = () => {
+    const a = fetch(`https://www.cass.city.ac.uk/fb/search.html?form=json&collection=CASS-Student-Profiles`)
+    .then(response => response.json)
+    const f = Students.facets.map(child => child)
+    return f
   }
 
   facetsIndustry = facets => {
-   const i = this.getFacets(Students)
+   const i = this.getFacets()
    const a = []
    i.forEach(e => {
     if(e.name === 'Industry' )
@@ -122,7 +132,7 @@ class MainPage extends PureComponent {
   }
 
   facetsNationality = facets => {
-    const i = this.getFacets(Students)
+    const i = this.getFacets()
     const a = []
     i.forEach( e => {
       if(e.name === 'Nationality')
@@ -133,7 +143,7 @@ class MainPage extends PureComponent {
   }
 
   facetsProgramme = facets => {
-    const i = this.getFacets(Students)
+    const i = this.getFacets()
     const a = []
     i.forEach( e => {
       if(e.name === 'Programme')
@@ -143,9 +153,10 @@ class MainPage extends PureComponent {
       return a
   }
 
-  filterProfiles = profiles => {
+  /*filterProfiles = profiles => {
     const { selectedIndustry, selectedProgramme, selectedNationality } = this.props
     console.log(selectedProgramme)
+    
     switch (true){
       //Industry = all & Programme = all & Nationality = all
       
@@ -185,7 +196,7 @@ class MainPage extends PureComponent {
       default:
         return profiles
     }
-    /*const a = ['selectedIndustry', 'selectedProgramme', 'selectedNationality']
+    
     const props = this.props
     a.forEach(function(filterBy){
       const filterValue = props[filterBy]
@@ -197,32 +208,40 @@ class MainPage extends PureComponent {
           return item[filterBy] === filterValue
         })
       }
-    })*/
+    })
 
-  }
+    
+  }*/
 
   render() {
     const { selectedIndustry, selectedNationality, selectedProgramme, profiles, receiveIndustry, receiveNextPageInfo } = this.props
     const s = this.facetsIndustry()
 
-    console.log(profiles)
+    console.log(typeof receiveNextPageInfo.totalPages)
     return (
-      <div>
-      <PickerIdustry value={selectedIndustry}
-                onChange={this.handleChangeIndus}
-                options={this.facetsIndustry()} />
-      <PickerNationality value={selectedNationality}
-                onChange={this.handleChangeNat}
-                options={this.facetsNationality()} />
-      <PickerProgramme value={selectedProgramme}
-                onChange={this.handleChangeProg}
-                options={this.facetsProgramme()} />
-
-        <Profiles profiles={this.filterProfiles(profiles)} sIndustry={selectedIndustry} />
-        {receiveNextPageInfo.totalPages > 1 ? 
+      <div className="student-profiles-search">
+        <div className="student-profiles-search__filters">
+          <PickerIdustry value={selectedIndustry}
+                    onChange={this.handleChangeIndus}
+                    options={this.facetsIndustry()} />
+          <PickerNationality value={selectedNationality}
+                    onChange={this.handleChangeNat}
+                    options={this.facetsNationality()} />
+          <PickerProgramme value={selectedProgramme}
+                    onChange={this.handleChangeProg}
+                    options={this.facetsProgramme()} />
+        </div>
+        
+        <Profiles profiles={profiles} sIndustry={selectedIndustry} />
+        <div className="student-profiles-search__profileInfo">
+          <div className="student-profiles-search__profileInfo__text">You've viewed {profiles.length} of {receiveNextPageInfo.totalPages} profiles</div>
+          <Progressbar />
+        </div>
+        {
+          receiveNextPageInfo.perPage === receiveNextPageInfo.nextStart ? <button type='button' disabled>Load more</button> :
           <div className="loadMoreButtonContainer"><button data-page={profiles.profileByF} 
-          onClick={this.loadMore}>Load more</button></div> : 
-          <button type='button' disabled>Load more</button>}
+          onClick={this.loadMore}>Load more</button></div>
+        }
 
         
       </div>

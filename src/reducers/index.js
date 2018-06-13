@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
+import { routerReducer } from 'react-router-redux';
 import { REQUEST_PROFILES, RECEIVE_PROFILES, INVALIDATE_PROFILES,
  SELECT_INDUSTRY, SELECT_NATIONALITY, SELECT_PROGRAMME, GET_INDUSTRY, NEXT_PAGE_INFO } from '../actions'
 
@@ -45,7 +46,8 @@ const receiveNextPageInfo = (state = {}, action ) => {
       return {
         page: action.page,
         perPage: action.perPage,
-        totalPages: action.totalPages
+        totalPages: action.totalPages,
+        currEnd: action.currEnd
       }
     default:
       return state
@@ -103,7 +105,8 @@ const rootReducer = combineReducers({
   selectedNationality,
   selectedProgramme,
   receiveIndustry,
-  receiveNextPageInfo
+  receiveNextPageInfo,
+  routing: routerReducer
 })
 
 export default rootReducer

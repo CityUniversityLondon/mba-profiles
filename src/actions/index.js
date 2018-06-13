@@ -50,27 +50,35 @@ export const receiveProfiles = (stuprofiles, json) => ({
 
 export const nextPageInfo = json => ({
   type : NEXT_PAGE_INFO,
-  page: json.page,
-  perPage: json.per_page,
-  totalPages: json.total_pages
+  page: json.summary.currStart,
+  perPage: json.summary.numRanks,
+  nextStart: json.summary.nextStart,
+  totalPages: json.summary.totalMatching,
+  currEnd: json.summary.currEnd
 }) 
 
 const fetchPosts = (industry, nationality, programme) => dispatch => {
   dispatch(requestProfiles(industry, nationality, programme))
-  return fetch(`https://reqres.in/api/users?per_page=${industry}&page=${nationality}`)
+  let i = String(industry),
+      n = String(nationality),
+      p = String(programme)
+  return fetch(`https://www.cass.city.ac.uk/fb/search.html?form=json&collection=CASS-Student-Profiles&meta_I_orsand=${i === 'all' ? '': industry}&meta_N_orsand=${n === 'all' ? '': nationality}&meta_P_orsand=${p === 'all'? '': programme}&num_ranks=5`)
     .then(response => response.json())
     .then(function json (j) { dispatch(receiveProfiles(industry, j)); dispatch(nextPageInfo(j))})
     .catch(e =>  dispatch(invalidateProfiles(e)))
 }
 
-export const loadMore = (industry, nationality, programme, p) => (dispatch, getState )=> {
-  let page = p.page
-  let perpage = p.perPage
-  let totalPage = p.totalPages
-  let totalProfile = perpage*totalPage
-  if (perpage < totalProfile){
-    let v = perpage+3
-  return fetch(`https://reqres.in/api/users?per_page=${v}`)
+export const loadMore = (industry, nationality, programme, page, perPage, totalPages, currEnd) => (dispatch, getState )=> {
+  let page = page,
+      perpage = perPage,
+      totalPage = totalPages,
+      currEnd = currEnd,
+      i = String(industry),
+      n = String(nationality),
+      p = String(programme)
+  if (perpage < totalPage ){
+    let v = perpage+5
+  return fetch(`https://www.cass.city.ac.uk/fb/search.html?form=json&collection=CASS-Student-Profiles&meta_I_orsand=${i === 'all' ? '': industry}&meta_N_orsand=${n === 'all' ? '': nationality}&meta_P_orsand=${p === 'all'? '': programme}&num_ranks=${v}`)
   .then(response => response.json())
   .then(function json (j) { dispatch(receiveProfiles(industry, j)); dispatch(nextPageInfo(j))})
 }
@@ -78,7 +86,7 @@ export const loadMore = (industry, nationality, programme, p) => (dispatch, getS
 
 export const fetchProfileIfNeeded = (industry, nationality, programme) => (dispatch, getState) => {
   
-    //return dispatch(fetchPosts(industry, nationality, programme)) change to use local JSON from funnelback
-    return dispatch(receiveProfiles(industry, Students))
+    return dispatch(fetchPosts(industry, nationality, programme)) //change to use local JSON from funnelback
+    //return dispatch(receiveProfiles(industry, Students))
   
 }

@@ -8,7 +8,7 @@ import reducer from './reducers'
 import './index.css';
 import App from './App';
 import MainPage from './MainPage';
-import registerServiceWorker from './registerServiceWorker';
+
 
 import {
   BrowserRouter as Router, Route
@@ -33,11 +33,11 @@ window.store =store
 render(
   <Provider store={store}>
     <Router>	
-    	<Route exact path="/:filter?" component={MainPage} />
+    	<Route exact path="/staging/labs/danny/student-profiles2:filter?" component={MainPage} />
 
     </Router>
   </Provider>,
   document.getElementById('root')
 )
 
-registerServiceWorker();
+

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 
 const PickerIdustry = ({ value, onChange, options }) => (
-  <div>
+  <div className="filter--box filter--box--industry">
     <label className='sr-only'>Industry</label>
     <select onChange={e => onChange(e.target.value)}
             value={value}>
