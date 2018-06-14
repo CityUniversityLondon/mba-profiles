@@ -3,14 +3,8 @@ import { connect } from 'react-redux'
 
 class Progressbar extends React.Component {
 	render(){
-		console.log('currEnd')
-		console.log(this.props.receiveNextPageInfo.currEnd)
-		console.log('totalPages')
-		console.log(this.props.receiveNextPageInfo.totalPages)
-		let	progrWidth = ( this.props.receiveNextPageInfo.currEnd / this.props.receiveNextPageInfo.totalPages) * 100
-		
-		
 
+		let	progrWidth = ( this.props.receiveNextPageInfo.currEnd / this.props.receiveNextPageInfo.totalPages) * 100
 		let progressStyle = {
 			width: progrWidth+'%'
 		}

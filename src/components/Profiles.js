@@ -14,9 +14,9 @@ const Profiles = ({profiles, sIndustry}) =>(
 						</div>
 						<div className="student-profiles__profile__details">
 							<div className="student-profiles__profile__details__title"><a href={profile.liveUrl}>{profile.title}</a></div>
-							<p>Industry: {profile.metaData.I}</p>
-							<p>Nationality: {profile.metaData.N}</p>
-							<p>Programme: {profile.metaData.P}</p>
+							<p><span className="filterCat">Industry:</span> <span className="firstLetterCap">{profile.metaData.I}</span></p>
+							<p><span className="filterCat">Nationality:</span> <span className="firstLetterCap">{profile.metaData.N}</span></p>
+							<p><span className="filterCat">Programme:</span> <span className="firstLetterCap">{profile.metaData.P}</span></p>
 						</div>
 					</div>
 					)

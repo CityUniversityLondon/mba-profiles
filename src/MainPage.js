@@ -33,39 +33,63 @@ class MainPage extends PureComponent {
     handleChangeProg: PropTypes.func
   }
 
- 
-
   componentWillMount(){
-    const { dispatch } = this.props
-    fetch(`https://reqres.in/api/users`)
-    .then(response => response.json())
-    .then(json => dispatch(getIndusrty(['3','4','5'])))
-
-
-
+    console.log(this.props.match.params.number)
     const parsed = qs.parse(this.props.history.location.search, { ignoreQueryPrefix: true })
-    console.log(parsed)
     
-    if(parsed.industry !== undefined){this.props.dispatch(selectIndustry(parsed.industry))}
+    if(parsed.industry !== undefined){
+      this.props.dispatch(selectIndustry(parsed.industry))
+      console.log('componentWillMount industry')
+    }
       
     if(parsed.nationality !== undefined){
-      console.log('nationality')
-      this.props.dispatch(selectNationality(parsed.nationality))}
-      
-    if(parsed.programme !== undefined){this.props.dispatch(selectProgramme(parsed.programme))}  
+      this.props.dispatch(selectNationality(parsed.nationality))
+      console.log('componentWillMount nationality')
+    }
+
+    if(parsed.programme !== undefined){
+      this.props.dispatch(selectProgramme(parsed.programme))
+      console.log('componentWillMount programme')
+    }  
   }
 
   componentDidMount() {
     const { dispatch, selectedIndustry, selectedNationality, selectedProgramme } = this.props
     dispatch(fetchProfileIfNeeded( selectedIndustry, selectedNationality, selectedProgramme ))
-    
   }
 
   componentWillReceiveProps(nextProps) {
+    const { dispatch, selectedIndustry, selectedNationality, selectedProgramme, history } = nextProps
+
+    history.listen(function(location) {
+      let parsed =  qs.parse(history.location.search, { ignoreQueryPrefix: true })
+      console.log(parsed)
+      if(parsed.industry !== undefined){
+        dispatch(selectIndustry(parsed.industry))
+        console.log('componentWillMount industry')
+      }else{
+        dispatch(selectIndustry('all'))
+      }
+      
+      if(parsed.nationality !== undefined){
+        dispatch(selectNationality(parsed.nationality))
+        console.log('componentWillMount nationality')
+      }else{
+        dispatch(selectNationality('all'))
+      }
+
+      if(parsed.programme !== undefined){
+        dispatch(selectProgramme(parsed.programme))
+        console.log('componentWillMount programme')
+      }else{
+        dispatch(selectProgramme('all'))
+      }
+    })
+
     if ((nextProps.selectedIndustry !== this.props.selectedIndustry) || 
       (nextProps.selectedNationality !== this.props.selectedNationality) || 
       (nextProps.selectedProgramme !== this.props.selectedProgramme)) {
-      const { dispatch, selectedIndustry, selectedNationality, selectedProgramme } = nextProps
+      
       dispatch(fetchProfileIfNeeded( selectedIndustry, selectedNationality, selectedProgramme ))
     }
   }
@@ -73,7 +97,6 @@ class MainPage extends PureComponent {
   getHistory = () =>{
     const h = this.props.location.search
     const parsed = qs.parse(h, { ignoreQueryPrefix: true })
-    console.log(parsed)
     return parsed
   }
 
@@ -217,7 +240,6 @@ class MainPage extends PureComponent {
     const { selectedIndustry, selectedNationality, selectedProgramme, profiles, receiveIndustry, receiveNextPageInfo } = this.props
     const s = this.facetsIndustry()
 
-    console.log(typeof receiveNextPageInfo.totalPages)
     return (
       <div className="student-profiles-search">
         <div className="student-profiles-search__filters">
