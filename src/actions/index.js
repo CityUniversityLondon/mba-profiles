@@ -7,6 +7,7 @@ export const SELECT_NATIONALITY = 'SELECT_NATIONALITY'
 export const SELECT_PROGRAMME = 'SELECT_PROGRAMME'
 export const GET_INDUSTRY = 'GET_INDUSTRY'
 export const NEXT_PAGE_INFO ='NEXT_PAGE_INFO'
+export const FACETS_INFO ='FACETS_INFO'
 
 
 export const selectIndustry = industry => ({
@@ -55,6 +56,11 @@ export const nextPageInfo = json => ({
   nextStart: json.summary.nextStart,
   totalPages: json.summary.totalMatching,
   currEnd: json.summary.currEnd
+})
+
+export const getFacetsInfo = json => ({
+  type : FACETS_INFO,
+  facets: json.facets
 }) 
 
 const fetchPosts = (industry, nationality, programme) => dispatch => {

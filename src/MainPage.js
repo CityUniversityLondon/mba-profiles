@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 
 import { fetchProfileIfNeeded, loadMore, invalidateProfiles, selectIndustry,
- selectNationality, selectProgramme, getIndusrty, receiveProfiles, nextPageInfo } from './actions'
+ selectNationality, selectProgramme, getIndusrty, receiveProfiles, nextPageInfo, getFacetsInfo } from './actions'
 import Profiles from './components/Profiles'
 import PickerIdustry from './components/PickerIdustry'
 import PickerNationality from './components/PickerNationality'
@@ -35,6 +35,12 @@ class MainPage extends PureComponent {
 
   componentWillMount(){
     console.log(this.props.match.params.number)
+    fetch(`https://www.cass.city.ac.uk/fb/search.html?form=json&collection=CASS-Student-Profiles`)
+    .then(response => response.json())
+    .then(json => this.props.dispatch(getFacetsInfo(json)))  
+
+  
+
     const parsed = qs.parse(this.props.history.location.search, { ignoreQueryPrefix: true })
     
     if(parsed.industry !== undefined){
@@ -50,7 +56,9 @@ class MainPage extends PureComponent {
     if(parsed.programme !== undefined){
       this.props.dispatch(selectProgramme(parsed.programme))
       console.log('componentWillMount programme')
-    }  
+    }
+
+    
   }
 
   componentDidMount() {
@@ -131,49 +139,62 @@ class MainPage extends PureComponent {
   
   loadMore = () => {
     const { dispatch, selectedIndustry, selectedNationality, selectedProgramme, receiveNextPageInfo } = this.props
-    console.log()
     dispatch(loadMore( selectedIndustry, selectedNationality, selectedProgramme, 
       receiveNextPageInfo.page, receiveNextPageInfo.perPage, receiveNextPageInfo.totalPages, receiveNextPageInfo.currEnd ))
   }
 
   getFacets = () => {
-    const a = fetch(`https://www.cass.city.ac.uk/fb/search.html?form=json&collection=CASS-Student-Profiles`)
-    .then(response => response.json)
+    
     const f = Students.facets.map(child => child)
     return f
   }
 
   facetsIndustry = facets => {
-   const i = this.getFacets()
-   const a = []
-   i.forEach(e => {
-    if(e.name === 'Industry' )
-      e.options.forEach( el => a.push(el.v))
-  })
-   a.unshift('-- Industry --')
-    return a
+    const i = this.props.receiveFacetsInfo
+    if(Object.keys(i).length === 0 && i.constructor === Object){
+      return []
+    }
+    else{
+      const a = []
+      i.forEach(e => {
+        if(e.name === 'Industry' )
+          e.options.forEach( el => a.push(el.v))
+      })
+      a.unshift('-- Industry --')
+        return a
+    }
   }
 
   facetsNationality = facets => {
-    const i = this.getFacets()
-    const a = []
-    i.forEach( e => {
-      if(e.name === 'Nationality')
-        e.options.forEach( el => a.push(el.v)) 
-    })
-    a.unshift('-- Nationality --')
-      return a
+    const i = this.props.receiveFacetsInfo
+    if(Object.keys(i).length === 0 && i.constructor === Object){
+      return []
+    }
+    else{
+      const a = []
+      i.forEach( e => {
+        if(e.name === 'Nationality')
+          e.options.forEach( el => a.push(el.v)) 
+      })
+      a.unshift('-- Nationality --')
+        return a
+    }
   }
 
   facetsProgramme = facets => {
-    const i = this.getFacets()
-    const a = []
-    i.forEach( e => {
-      if(e.name === 'Programme')
-        e.options.forEach( el => a.push(el.v)) 
-    })
-    a.unshift('-- Programme --')
-      return a
+    const i = this.props.receiveFacetsInfo
+    if(Object.keys(i).length === 0 && i.constructor === Object){
+      return []
+    }
+    else{
+      const a = []
+      i.forEach( e => {
+        if(e.name === 'Programme')
+          e.options.forEach( el => a.push(el.v)) 
+      })
+      a.unshift('-- Programme --')
+        return a
+    }
   }
 
   /*filterProfiles = profiles => {
@@ -237,8 +258,8 @@ class MainPage extends PureComponent {
   }*/
 
   render() {
-    const { selectedIndustry, selectedNationality, selectedProgramme, profiles, receiveIndustry, receiveNextPageInfo } = this.props
-    const s = this.facetsIndustry()
+    const { selectedIndustry, selectedNationality, selectedProgramme, profiles, receiveIndustry, receiveNextPageInfo, receiveFacetsInfo} = this.props
+      console.log(this.props.receiveFacetsInfo)
 
     return (
       <div className="student-profiles-search">
@@ -272,7 +293,7 @@ class MainPage extends PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { selectedIndustry, selectedNationality, selectedProgramme, profileByF, receiveIndustry, receiveNextPageInfo } = state
+  const { selectedIndustry, selectedNationality, selectedProgramme, profileByF, receiveIndustry, receiveNextPageInfo, receiveFacetsInfo } = state
   const {
     isFetching,
     lastUpdated,
@@ -289,7 +310,8 @@ const mapStateToProps = (state, ownProps) => {
     isFetching,
     lastUpdated,
     receiveIndustry,
-    receiveNextPageInfo
+    receiveNextPageInfo,
+    receiveFacetsInfo
   } 
 }
 
