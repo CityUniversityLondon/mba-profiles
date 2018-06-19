@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const PickerNationality = ({ value, onChange, options }) => (
+const PickerYear = ({ value, onChange, options }) => (
   <div className="filter--box filter--box--nationality">
-    <label className="sr-only">Nationality</label>
+    <label className="sr-only">Year</label>
     <select onChange={e => onChange(e.target.value)} value={value}>
       {
         options.map(( option, i ) =>
@@ -15,7 +15,7 @@ const PickerNationality = ({ value, onChange, options }) => (
   </div>
 )
 
-PickerNationality.propTypes = {
+PickerYear.propTypes = {
   options: PropTypes.arrayOf(
     PropTypes.string.isRequired
   ).isRequired,
@@ -23,4 +23,4 @@ PickerNationality.propTypes = {
   onChange: PropTypes.func.isRequired
 }
 
-export default PickerNationality
+export default PickerYear

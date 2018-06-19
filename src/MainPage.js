@@ -4,10 +4,10 @@ import { Link } from 'react-router';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 
 import { fetchProfileIfNeeded, loadMore, invalidateProfiles, selectIndustry,
- selectNationality, selectProgramme, getIndusrty, receiveProfiles, nextPageInfo, getFacetsInfo } from './actions'
+ selectYear, selectProgramme, getIndusrty, receiveProfiles, nextPageInfo, getFacetsInfo } from './actions'
 import Profiles from './components/Profiles'
 import PickerIdustry from './components/PickerIdustry'
-import PickerNationality from './components/PickerNationality'
+import PickerYear from './components/PickerYear'
 import PickerProgramme from './components/PickerProgramme'
 import Progressbar from './components/Progressbar'
 import PropTypes from 'prop-types'
@@ -22,7 +22,7 @@ class MainPage extends PureComponent {
   
   static propTypes = {
     selectedIndustry: PropTypes.string.isRequired,
-    selectedNationality: PropTypes.string.isRequired,
+    selectedYear: PropTypes.string.isRequired,
     selectedProgramme: PropTypes.string.isRequired,
     profiles: PropTypes.array.isRequired,
     isFetching: PropTypes.bool.isRequired,
@@ -48,9 +48,9 @@ class MainPage extends PureComponent {
       console.log('componentWillMount industry')
     }
       
-    if(parsed.nationality !== undefined){
-      this.props.dispatch(selectNationality(parsed.nationality))
-      console.log('componentWillMount nationality')
+    if(parsed.year !== undefined){
+      this.props.dispatch(selectYear(parsed.year))
+      console.log('componentWillMount year')
     }
 
     if(parsed.programme !== undefined){
@@ -62,12 +62,12 @@ class MainPage extends PureComponent {
   }
 
   componentDidMount() {
-    const { dispatch, selectedIndustry, selectedNationality, selectedProgramme } = this.props
-    dispatch(fetchProfileIfNeeded( selectedIndustry, selectedNationality, selectedProgramme ))
+    const { dispatch, selectedIndustry, selectedYear, selectedProgramme } = this.props
+    dispatch(fetchProfileIfNeeded( selectedIndustry, selectedYear, selectedProgramme ))
   }
 
   componentWillReceiveProps(nextProps) {
-    const { dispatch, selectedIndustry, selectedNationality, selectedProgramme, history } = nextProps
+    const { dispatch, selectedIndustry, selectedYear, selectedProgramme, history } = nextProps
 
     history.listen(function(location) {
       let parsed =  qs.parse(history.location.search, { ignoreQueryPrefix: true })
@@ -79,11 +79,11 @@ class MainPage extends PureComponent {
         dispatch(selectIndustry('all'))
       }
       
-      if(parsed.nationality !== undefined){
-        dispatch(selectNationality(parsed.nationality))
-        console.log('componentWillMount nationality')
+      if(parsed.year !== undefined){
+        dispatch(selectYear(parsed.year))
+        console.log('componentWillMount year')
       }else{
-        dispatch(selectNationality('all'))
+        dispatch(selectYear('all'))
       }
 
       if(parsed.programme !== undefined){
@@ -95,10 +95,10 @@ class MainPage extends PureComponent {
     })
 
     if ((nextProps.selectedIndustry !== this.props.selectedIndustry) || 
-      (nextProps.selectedNationality !== this.props.selectedNationality) || 
+      (nextProps.selectedYear !== this.props.selectedYear) || 
       (nextProps.selectedProgramme !== this.props.selectedProgramme)) {
       
-      dispatch(fetchProfileIfNeeded( selectedIndustry, selectedNationality, selectedProgramme ))
+      dispatch(fetchProfileIfNeeded( selectedIndustry, selectedYear, selectedProgramme ))
     }
   }
 
@@ -120,10 +120,10 @@ class MainPage extends PureComponent {
     this.props.history.push('?'+stringfiy)
   }
 
-  handleChangeNat = nextNat => {
-    this.props.dispatch(selectNationality(nextNat))
+  handleChangeYear = nextYear => {
+    this.props.dispatch(selectYear(nextYear))
     const h = this.getHistory()
-    h.nationality = nextNat
+    h.year = nextYear
     const stringfiy = qs.stringify(h)
     this.props.history.push('?'+stringfiy)
     
@@ -138,8 +138,8 @@ class MainPage extends PureComponent {
   }
   
   loadMore = () => {
-    const { dispatch, selectedIndustry, selectedNationality, selectedProgramme, receiveNextPageInfo } = this.props
-    dispatch(loadMore( selectedIndustry, selectedNationality, selectedProgramme, 
+    const { dispatch, selectedIndustry, selectedYear, selectedProgramme, receiveNextPageInfo } = this.props
+    dispatch(loadMore( selectedIndustry, selectedYear, selectedProgramme, 
       receiveNextPageInfo.page, receiveNextPageInfo.perPage, receiveNextPageInfo.totalPages, receiveNextPageInfo.currEnd ))
   }
 
@@ -160,12 +160,13 @@ class MainPage extends PureComponent {
         if(e.name === 'Industry' )
           e.options.forEach( el => a.push(el.v))
       })
+      a.sort()
       a.unshift('-- Industry --')
         return a
     }
   }
 
-  facetsNationality = facets => {
+  facetsYear = facets => {
     const i = this.props.receiveFacetsInfo
     if(Object.keys(i).length === 0 && i.constructor === Object){
       return []
@@ -173,10 +174,11 @@ class MainPage extends PureComponent {
     else{
       const a = []
       i.forEach( e => {
-        if(e.name === 'Nationality')
+        if(e.name === 'Year')
           e.options.forEach( el => a.push(el.v)) 
       })
-      a.unshift('-- Nationality --')
+      a.sort()
+      a.unshift('-- Year --')
         return a
     }
   }
@@ -192,6 +194,7 @@ class MainPage extends PureComponent {
         if(e.name === 'Programme')
           e.options.forEach( el => a.push(el.v)) 
       })
+      a.sort()
       a.unshift('-- Programme --')
         return a
     }
@@ -258,7 +261,7 @@ class MainPage extends PureComponent {
   }*/
 
   render() {
-    const { selectedIndustry, selectedNationality, selectedProgramme, profiles, receiveIndustry, receiveNextPageInfo, receiveFacetsInfo} = this.props
+    const { selectedIndustry, selectedYear, selectedProgramme, profiles, receiveIndustry, receiveNextPageInfo, receiveFacetsInfo} = this.props
       console.log(this.props.receiveFacetsInfo)
 
     return (
@@ -267,9 +270,9 @@ class MainPage extends PureComponent {
           <PickerIdustry value={selectedIndustry}
                     onChange={this.handleChangeIndus}
                     options={this.facetsIndustry()} />
-          <PickerNationality value={selectedNationality}
-                    onChange={this.handleChangeNat}
-                    options={this.facetsNationality()} />
+          <PickerYear value={selectedYear}
+                    onChange={this.handleChangeYear}
+                    options={this.facetsYear()} />
           <PickerProgramme value={selectedProgramme}
                     onChange={this.handleChangeProg}
                     options={this.facetsProgramme()} />
@@ -293,7 +296,7 @@ class MainPage extends PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { selectedIndustry, selectedNationality, selectedProgramme, profileByF, receiveIndustry, receiveNextPageInfo, receiveFacetsInfo } = state
+  const { selectedIndustry, selectedYear, selectedProgramme, profileByF, receiveIndustry, receiveNextPageInfo, receiveFacetsInfo } = state
   const {
     isFetching,
     lastUpdated,
@@ -304,7 +307,7 @@ const mapStateToProps = (state, ownProps) => {
   }
   return { 
     selectedIndustry,
-    selectedNationality,
+    selectedYear,
     selectedProgramme,
     profiles,
     isFetching,

@@ -3,7 +3,7 @@ export const REQUEST_PROFILES = 'REQUEST_PROFILES'
 export const RECEIVE_PROFILES = 'RECEIVE_PROFILES'
 export const INVALIDATE_PROFILES = 'INVALIDATE_PROFILES'
 export const SELECT_INDUSTRY = 'SELECT_INDUSTRY'
-export const SELECT_NATIONALITY = 'SELECT_NATIONALITY'
+export const SELECT_YEAR = 'SELECT_YEAR'
 export const SELECT_PROGRAMME = 'SELECT_PROGRAMME'
 export const GET_INDUSTRY = 'GET_INDUSTRY'
 export const NEXT_PAGE_INFO ='NEXT_PAGE_INFO'
@@ -20,9 +20,9 @@ export const getIndusrty = gIndusrty => ({
   gIndusrty
 })
 
-export const selectNationality = nationality => ({
-  type: SELECT_NATIONALITY,
-  nationality
+export const selectYear = year => ({
+  type: SELECT_YEAR,
+  year
 })
 
 export const selectProgramme = programme => ({
@@ -35,10 +35,10 @@ export const invalidateProfiles = error => ({
   error
 })
 
-export const requestProfiles = (industry, nationality, programme) => ({
+export const requestProfiles = (industry, year, programme) => ({
   type: REQUEST_PROFILES,
   industry,
-  nationality,
+  year,
   programme
 })
 
@@ -63,36 +63,36 @@ export const getFacetsInfo = json => ({
   facets: json.facets
 }) 
 
-const fetchPosts = (industry, nationality, programme) => dispatch => {
-  dispatch(requestProfiles(industry, nationality, programme))
+const fetchPosts = (industry, year, programme) => dispatch => {
+  dispatch(requestProfiles(industry, year, programme))
   let i = String(industry),
-      n = String(nationality),
+      n = String(year),
       p = String(programme)
-  return fetch(`https://www.cass.city.ac.uk/fb/search.html?form=json&collection=CASS-Student-Profiles&meta_I_orsand=${i === 'all' ? '': industry}&meta_N_orsand=${n === 'all' ? '': nationality}&meta_P_orsand=${p === 'all'? '': programme}&num_ranks=5`)
+  return fetch(`https://www.cass.city.ac.uk/fb/search.html?form=json&collection=CASS-Student-Profiles&meta_I_orsand=${i === 'all' ? '': industry}&meta_Y_orsand=${n === 'all' ? '': year}&meta_P_orsand=${p === 'all'? '': programme}&num_ranks=5`)
     .then(response => response.json())
     .then(function json (j) { dispatch(receiveProfiles(industry, j)); dispatch(nextPageInfo(j))})
     .catch(e =>  dispatch(invalidateProfiles(e)))
 }
 
-export const loadMore = (industry, nationality, programme, page, perPage, totalPages, currEnd) => (dispatch, getState )=> {
+export const loadMore = (industry, year, programme, page, perPage, totalPages, currEnd) => (dispatch, getState )=> {
   let page = page,
       perpage = perPage,
       totalPage = totalPages,
       currEnd = currEnd,
       i = String(industry),
-      n = String(nationality),
+      n = String(year),
       p = String(programme)
   if (perpage < totalPage ){
     let v = perpage+5
-  return fetch(`https://www.cass.city.ac.uk/fb/search.html?form=json&collection=CASS-Student-Profiles&meta_I_orsand=${i === 'all' ? '': industry}&meta_N_orsand=${n === 'all' ? '': nationality}&meta_P_orsand=${p === 'all'? '': programme}&num_ranks=${v}`)
+  return fetch(`https://www.cass.city.ac.uk/fb/search.html?form=json&collection=CASS-Student-Profiles&meta_I_orsand=${i === 'all' ? '': industry}&meta_Y_orsand=${n === 'all' ? '': year}&meta_P_orsand=${p === 'all'? '': programme}&num_ranks=${v}`)
   .then(response => response.json())
   .then(function json (j) { dispatch(receiveProfiles(industry, j)); dispatch(nextPageInfo(j))})
 }
 }
 
-export const fetchProfileIfNeeded = (industry, nationality, programme) => (dispatch, getState) => {
+export const fetchProfileIfNeeded = (industry, year, programme) => (dispatch, getState) => {
   
-    return dispatch(fetchPosts(industry, nationality, programme)) //change to use local JSON from funnelback
+    return dispatch(fetchPosts(industry, year, programme)) //change to use local JSON from funnelback
     //return dispatch(receiveProfiles(industry, Students))
   
 }
