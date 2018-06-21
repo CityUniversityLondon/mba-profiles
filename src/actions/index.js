@@ -1,4 +1,3 @@
-import Students from '../studentJson'
 export const REQUEST_PROFILES = 'REQUEST_PROFILES'
 export const RECEIVE_PROFILES = 'RECEIVE_PROFILES'
 export const INVALIDATE_PROFILES = 'INVALIDATE_PROFILES'
@@ -68,7 +67,7 @@ const fetchPosts = (industry, year, programme) => dispatch => {
   let i = String(industry),
       n = String(year),
       p = String(programme)
-  return fetch(`https://www.cass.city.ac.uk/fb/search.html?form=json&collection=CASS-Student-Profiles&meta_I_orsand=${i === 'all' ? '': industry}&meta_Y_orsand=${n === 'all' ? '': year}&meta_P_orsand=${p === 'all'? '': programme}&num_ranks=5`)
+  return fetch(`https://www.cass.city.ac.uk/fb/search.html?form=json&collection=CASS-Student-Profiles&meta_I_orsand=${i === 'all' ? '': industry}&meta_Y_orsand=${n === 'all' ? '': year}&meta_P_orsand=${p === 'all'? '': programme}&num_ranks=6&sort=title`)
     .then(response => response.json())
     .then(function json (j) { dispatch(receiveProfiles(industry, j)); dispatch(nextPageInfo(j))})
     .catch(e =>  dispatch(invalidateProfiles(e)))
@@ -83,8 +82,8 @@ export const loadMore = (industry, year, programme, page, perPage, totalPages, c
       n = String(year),
       p = String(programme)
   if (perpage < totalPage ){
-    let v = perpage+5
-  return fetch(`https://www.cass.city.ac.uk/fb/search.html?form=json&collection=CASS-Student-Profiles&meta_I_orsand=${i === 'all' ? '': industry}&meta_Y_orsand=${n === 'all' ? '': year}&meta_P_orsand=${p === 'all'? '': programme}&num_ranks=${v}`)
+    let v = perpage+6
+  return fetch(`https://www.cass.city.ac.uk/fb/search.html?form=json&collection=CASS-Student-Profiles&meta_I_orsand=${i === 'all' ? '': industry}&meta_Y_orsand=${n === 'all' ? '': year}&meta_P_orsand=${p === 'all'? '': programme}&num_ranks=${v}&sort=title`)
   .then(response => response.json())
   .then(function json (j) { dispatch(receiveProfiles(industry, j)); dispatch(nextPageInfo(j))})
 }

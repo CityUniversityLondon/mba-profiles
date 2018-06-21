@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 
 const Profiles = ({profiles, sIndustry}) =>(
 
@@ -15,8 +14,8 @@ const Profiles = ({profiles, sIndustry}) =>(
 						<div className="student-profiles__profile__details">
 							<div className="student-profiles__profile__details__title"><a href={profile.liveUrl}>{profile.title}</a></div>
 							<p><span className="filterCat">Industry:</span> <span className="firstLetterCap">{profile.metaData.I}</span></p>
-							<p><span className="filterCat">Year:</span> <span className="firstLetterCap">{profile.metaData.Y}</span></p>
 							<p><span className="filterCat">Programme:</span> <span className="firstLetterCap">{profile.metaData.P}</span></p>
+							<p><span className="filterCat">Year:</span> <span className="firstLetterCap">{profile.metaData.Y}</span></p>
 						</div>
 					</div>
 					)
@@ -27,12 +26,5 @@ const Profiles = ({profiles, sIndustry}) =>(
 Profiles.propTypes = {
   profiles: PropTypes.array.isRequired
 }
-
-const mapStateToProps = state => {
-		const { selectedIndustry } = state
-		return {
-			selectedIndustry
-		}
-	}
 
 export default Profiles

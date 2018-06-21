@@ -11,6 +11,7 @@ import PickerYear from './components/PickerYear'
 import PickerProgramme from './components/PickerProgramme'
 import Progressbar from './components/Progressbar'
 import PropTypes from 'prop-types'
+import ClearFilters from './components/ClearFilters'
 import Students from './studentJson'
 import qs from 'qs';
 
@@ -34,13 +35,13 @@ class MainPage extends PureComponent {
   }
 
   componentWillMount(){
-    console.log(this.props.match.params.number)
+    //load facets info from funnelback and dispatch into redux store
     fetch(`https://www.cass.city.ac.uk/fb/search.html?form=json&collection=CASS-Student-Profiles`)
     .then(response => response.json())
     .then(json => this.props.dispatch(getFacetsInfo(json)))  
 
   
-
+    //using URL query parameter to set state 
     const parsed = qs.parse(this.props.history.location.search, { ignoreQueryPrefix: true })
     
     if(parsed.industry !== undefined){
@@ -62,13 +63,14 @@ class MainPage extends PureComponent {
   }
 
   componentDidMount() {
+    //after component mount dispatch to fetch profile
     const { dispatch, selectedIndustry, selectedYear, selectedProgramme } = this.props
     dispatch(fetchProfileIfNeeded( selectedIndustry, selectedYear, selectedProgramme ))
   }
 
   componentWillReceiveProps(nextProps) {
     const { dispatch, selectedIndustry, selectedYear, selectedProgramme, history } = nextProps
-
+    //listen to browser back and forward buttons and dispatch accorrding to parameters
     history.listen(function(location) {
       let parsed =  qs.parse(history.location.search, { ignoreQueryPrefix: true })
       console.log(parsed)
@@ -93,7 +95,7 @@ class MainPage extends PureComponent {
         dispatch(selectProgramme('all'))
       }
     })
-
+    //handle selectbox changes by comparing new to old value
     if ((nextProps.selectedIndustry !== this.props.selectedIndustry) || 
       (nextProps.selectedYear !== this.props.selectedYear) || 
       (nextProps.selectedProgramme !== this.props.selectedProgramme)) {
@@ -101,7 +103,7 @@ class MainPage extends PureComponent {
       dispatch(fetchProfileIfNeeded( selectedIndustry, selectedYear, selectedProgramme ))
     }
   }
-
+  //handle onchange events on selectboxes
   getHistory = () =>{
     const h = this.props.location.search
     const parsed = qs.parse(h, { ignoreQueryPrefix: true })
@@ -136,159 +138,96 @@ class MainPage extends PureComponent {
     const stringfiy = qs.stringify(h)
     this.props.history.push('?'+stringfiy)
   }
-  
+  //handle load more button
   loadMore = () => {
     const { dispatch, selectedIndustry, selectedYear, selectedProgramme, receiveNextPageInfo } = this.props
     dispatch(loadMore( selectedIndustry, selectedYear, selectedProgramme, 
       receiveNextPageInfo.page, receiveNextPageInfo.perPage, receiveNextPageInfo.totalPages, receiveNextPageInfo.currEnd ))
   }
 
-  getFacets = () => {
+  
+  // load selectbox facets from state 
+  getFacets = selected => {
     
-    const f = Students.facets.map(child => child)
-    return f
+    const i = this.props.receiveFacetsInfo
+    console.log(selected)
+    console.log(i)
+    const a = []
+    i.forEach( e => {
+            if(e.name === selected)
+              e.options.forEach( el => a.push(el.v)) 
+          })
+    
+    return a
   }
 
-  facetsIndustry = facets => {
+  loadFacets = facet =>{
     const i = this.props.receiveFacetsInfo
     if(Object.keys(i).length === 0 && i.constructor === Object){
       return []
     }
     else{
-      const a = []
-      i.forEach(e => {
-        if(e.name === 'Industry' )
-          e.options.forEach( el => a.push(el.v))
-      })
-      a.sort()
-      a.unshift('-- Industry --')
-        return a
-    }
-  }
-
-  facetsYear = facets => {
-    const i = this.props.receiveFacetsInfo
-    if(Object.keys(i).length === 0 && i.constructor === Object){
-      return []
-    }
-    else{
-      const a = []
-      i.forEach( e => {
-        if(e.name === 'Year')
-          e.options.forEach( el => a.push(el.v)) 
-      })
-      a.sort()
-      a.unshift('-- Year --')
-        return a
-    }
-  }
-
-  facetsProgramme = facets => {
-    const i = this.props.receiveFacetsInfo
-    if(Object.keys(i).length === 0 && i.constructor === Object){
-      return []
-    }
-    else{
-      const a = []
-      i.forEach( e => {
-        if(e.name === 'Programme')
-          e.options.forEach( el => a.push(el.v)) 
-      })
-      a.sort()
-      a.unshift('-- Programme --')
-        return a
-    }
-  }
-
-  /*filterProfiles = profiles => {
-    const { selectedIndustry, selectedProgramme, selectedNationality } = this.props
-    console.log(selectedProgramme)
-    
-    switch (true){
-      //Industry = all & Programme = all & Nationality = all
-      
-      //Industry = all & Programme = select & Nationality = select
-      case (selectedIndustry === 'all' && selectedProgramme !== 'all' && selectedNationality !== 'all'):
-
-        return profiles.filter(profiles => 
-      profiles.metaData.P === selectedProgramme && profiles.metaData.N === selectedNationality)
-      //Industry = select & Programme = all & Nationality = select
-      case (selectedIndustry !== 'all' && selectedProgramme === 'all' && selectedNationality !== 'all'):
-
-        return profiles.filter(profiles => profiles.metaData.I === selectedIndustry
-      && profiles.metaData.N === selectedNationality)
-      //Industry = select & Programme = select & Nationality = all
-      case (selectedIndustry !== 'all' && selectedProgramme !== 'all' && selectedNationality === 'all'):
-
-        return profiles.filter(profiles => profiles.metaData.I === selectedIndustry
-     && profiles.metaData.P === selectedProgramme)
-      //Industry = all & Programme = all & Nationality = select
-      case (selectedIndustry === 'all' && selectedProgramme === 'all' && selectedNationality !== 'all'):
-
-        return profiles.filter(profiles => profiles.metaData.N === selectedNationality)
-      //Industry = all & Programme = select & Nationality = all
-      case (selectedIndustry === 'all' && selectedProgramme !== 'all' && selectedNationality === 'all'):
-
-        return profiles.filter(profiles => profiles.metaData.P === selectedProgramme)
-      //Industry = select & Programme = all & Nationality = all
-      case (selectedIndustry !== 'all' && selectedProgramme === 'all' && selectedNationality === 'all'):
-
-        return profiles.filter(profiles => profiles.metaData.I === selectedIndustry) 
-      //Industry = select & Programme = select & Nationality = select
-      case (selectedIndustry !== 'all' && selectedProgramme !== 'all' && selectedNationality !== 'all'):
-
-        return profiles.filter(profiles => profiles.metaData.I === selectedIndustry
-     && profiles.metaData.P === selectedProgramme && profiles.metaData.N === selectedNationality)
-
-      default:
-        return profiles
-    }
-    
-    const props = this.props
-    a.forEach(function(filterBy){
-      const filterValue = props[filterBy]
-      if (filterValue === 'all') {
-       return profiles
+      switch (facet){
+        case 'Industry':
+          const f = this.getFacets(facet)
+          f.unshift('-- Industry --')
+          return f.sort()
+        case 'Year':
+          const a = this.getFacets(facet)
+          a.unshift('-- Year --')
+          return a.sort()
+        case 'Programme':
+          const p = this.getFacets(facet)
+          p.unshift('-- Programme --')
+          return p.sort()
+        default:
+          return []
       }
-      else {
-         profiles = profiles.filter(function(item){
-          return item[filterBy] === filterValue
-        })
-      }
-    })
+    }
+  }
 
-    
-  }*/
+  
 
   render() {
-    const { selectedIndustry, selectedYear, selectedProgramme, profiles, receiveIndustry, receiveNextPageInfo, receiveFacetsInfo} = this.props
+    const { selectedIndustry, selectedYear, selectedProgramme, profiles, receiveIndustry, receiveNextPageInfo, receiveFacetsInfo, history} = this.props
       console.log(this.props.receiveFacetsInfo)
 
     return (
       <div className="student-profiles-search">
-        <div className="student-profiles-search__filters">
-          <PickerIdustry value={selectedIndustry}
-                    onChange={this.handleChangeIndus}
-                    options={this.facetsIndustry()} />
-          <PickerYear value={selectedYear}
-                    onChange={this.handleChangeYear}
-                    options={this.facetsYear()} />
-          <PickerProgramme value={selectedProgramme}
-                    onChange={this.handleChangeProg}
-                    options={this.facetsProgramme()} />
-        </div>
-        
-        <Profiles profiles={profiles} sIndustry={selectedIndustry} />
-        <div className="student-profiles-search__profileInfo">
-          <div className="student-profiles-search__profileInfo__text">You've viewed {profiles.length} of {receiveNextPageInfo.totalPages} profiles</div>
-          <Progressbar />
-        </div>
-        {
-          receiveNextPageInfo.perPage === receiveNextPageInfo.nextStart ? <button type='button' disabled>Load more</button> :
-          <div className="loadMoreButtonContainer"><button data-page={profiles.profileByF} 
-          onClick={this.loadMore}>Load more</button></div>
-        }
+        <div className="student-profiles-search__top">
 
+          <div className="student-profiles-search__filters">
+            <PickerIdustry value={selectedIndustry}
+                      onChange={this.handleChangeIndus}
+                      options={this.loadFacets('Industry')} />
+            <PickerYear value={selectedYear}
+                      onChange={this.handleChangeYear}
+                      options={this.loadFacets('Year')} />
+            <PickerProgramme value={selectedProgramme}
+                      onChange={this.handleChangeProg}
+                      options={this.loadFacets('Programme')} />
+          </div> 
+
+          <ClearFilters sIndustry={selectedIndustry} sYear={selectedYear} sProgramme={selectedProgramme} historyInfo={history} />
+
+          <Profiles profiles={profiles} sIndustry={selectedIndustry} />
+
+        </div>
+
+        <div className="student-profiles-search__bottom">
+
+          <div className="student-profiles-search__profileInfo">
+            <div className="student-profiles-search__profileInfo__text">You've viewed {profiles.length} of {receiveNextPageInfo.totalPages} profiles</div>
+
+            <Progressbar />
+
+          </div>
+          {
+            receiveNextPageInfo.perPage === receiveNextPageInfo.nextStart ? <button type='button' disabled>Load more</button> :
+            <div className="loadMoreButtonContainer"><button data-page={profiles.profileByF} 
+            onClick={this.loadMore}>Load more</button></div>
+          }
+        </div>
         
       </div>
     )
