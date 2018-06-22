@@ -45,9 +45,9 @@ class ClearFilters extends React.Component {
 						f.map((filter,i) => {
 							if(filter !== 'all'){
 							return (								
-								<span className={filter} >
+								
 									<a href={filter} key={i} data-filter={i} onClick={(e => this.handleClick(e, i))}><span>{filter}<FaClose/></span></a>
-								</span>
+								
 								)
 							}
 						})

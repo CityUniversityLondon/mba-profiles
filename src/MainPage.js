@@ -14,6 +14,7 @@ import PropTypes from 'prop-types'
 import ClearFilters from './components/ClearFilters'
 import Students from './studentJson'
 import qs from 'qs';
+import { BeatLoader } from 'react-spinners';
 
 
 
@@ -211,7 +212,12 @@ class MainPage extends PureComponent {
           <ClearFilters sIndustry={selectedIndustry} sYear={selectedYear} sProgramme={selectedProgramme} historyInfo={history} />
 
           <Profiles profiles={profiles} sIndustry={selectedIndustry} />
-
+          <div className="student-profiles-search__loadingSpinner">
+            <BeatLoader
+              color={'#88d1ce'} 
+              loading={this.props.isFetching} 
+            />
+          </div>
         </div>
 
         <div className="student-profiles-search__bottom">
