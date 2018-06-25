@@ -4,10 +4,10 @@ import { Link } from 'react-router';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 
 import { fetchProfileIfNeeded, loadMore, invalidateProfiles, selectIndustry,
- selectYear, selectProgramme, getIndusrty, receiveProfiles, nextPageInfo, getFacetsInfo } from './actions'
+ selectNationality, selectProgramme, getIndusrty, receiveProfiles, nextPageInfo, getFacetsInfo } from './actions'
 import Profiles from './components/Profiles'
 import PickerIdustry from './components/PickerIdustry'
-import PickerYear from './components/PickerYear'
+import PickerNationality from './components/PickerNationality'
 import PickerProgramme from './components/PickerProgramme'
 import Progressbar from './components/Progressbar'
 import PropTypes from 'prop-types'
@@ -24,7 +24,7 @@ class MainPage extends PureComponent {
   
   static propTypes = {
     selectedIndustry: PropTypes.string.isRequired,
-    selectedYear: PropTypes.string.isRequired,
+    selectedNationality: PropTypes.string.isRequired,
     selectedProgramme: PropTypes.string.isRequired,
     profiles: PropTypes.array.isRequired,
     isFetching: PropTypes.bool.isRequired,
@@ -50,9 +50,9 @@ class MainPage extends PureComponent {
       console.log('componentWillMount industry')
     }
       
-    if(parsed.year !== undefined){
-      this.props.dispatch(selectYear(parsed.year))
-      console.log('componentWillMount year')
+    if(parsed.nationality !== undefined){
+      this.props.dispatch(selectNationality(parsed.nationality))
+      console.log('componentWillMount nationality')
     }
 
     if(parsed.programme !== undefined){
@@ -65,12 +65,12 @@ class MainPage extends PureComponent {
 
   componentDidMount() {
     //after component mount dispatch to fetch profile
-    const { dispatch, selectedIndustry, selectedYear, selectedProgramme } = this.props
-    dispatch(fetchProfileIfNeeded( selectedIndustry, selectedYear, selectedProgramme ))
+    const { dispatch, selectedIndustry, selectedNationality, selectedProgramme } = this.props
+    dispatch(fetchProfileIfNeeded( selectedIndustry, selectedNationality, selectedProgramme ))
   }
 
   componentWillReceiveProps(nextProps) {
-    const { dispatch, selectedIndustry, selectedYear, selectedProgramme, history } = nextProps
+    const { dispatch, selectedIndustry, selectedNationality, selectedProgramme, history } = nextProps
     //listen to browser back and forward buttons and dispatch accorrding to parameters
     history.listen(function(location) {
       let parsed =  qs.parse(history.location.search, { ignoreQueryPrefix: true })
@@ -82,11 +82,11 @@ class MainPage extends PureComponent {
         dispatch(selectIndustry('all'))
       }
       
-      if(parsed.year !== undefined){
-        dispatch(selectYear(parsed.year))
-        console.log('componentWillMount year')
+      if(parsed.nationality !== undefined){
+        dispatch(selectNationality(parsed.nationality))
+        console.log('componentWillMount nationality')
       }else{
-        dispatch(selectYear('all'))
+        dispatch(selectNationality('all'))
       }
 
       if(parsed.programme !== undefined){
@@ -98,10 +98,10 @@ class MainPage extends PureComponent {
     })
     //handle selectbox changes by comparing new to old value
     if ((nextProps.selectedIndustry !== this.props.selectedIndustry) || 
-      (nextProps.selectedYear !== this.props.selectedYear) || 
+      (nextProps.selectedNationality !== this.props.selectedNationality) || 
       (nextProps.selectedProgramme !== this.props.selectedProgramme)) {
       
-      dispatch(fetchProfileIfNeeded( selectedIndustry, selectedYear, selectedProgramme ))
+      dispatch(fetchProfileIfNeeded( selectedIndustry, selectedNationality, selectedProgramme ))
     }
   }
   //handle onchange events on selectboxes
@@ -123,10 +123,10 @@ class MainPage extends PureComponent {
     this.props.history.push('?'+stringfiy)
   }
 
-  handleChangeYear = nextYear => {
-    this.props.dispatch(selectYear(nextYear))
+  handleChangeNationality = nextNationality => {
+    this.props.dispatch(selectNationality(nextNationality))
     const h = this.getHistory()
-    h.year = nextYear
+    h.nationality = nextNationality
     const stringfiy = qs.stringify(h)
     this.props.history.push('?'+stringfiy)
     
@@ -141,8 +141,8 @@ class MainPage extends PureComponent {
   }
   //handle load more button
   loadMore = () => {
-    const { dispatch, selectedIndustry, selectedYear, selectedProgramme, receiveNextPageInfo } = this.props
-    dispatch(loadMore( selectedIndustry, selectedYear, selectedProgramme, 
+    const { dispatch, selectedIndustry, selectedNationality, selectedProgramme, receiveNextPageInfo } = this.props
+    dispatch(loadMore( selectedIndustry, selectedNationality, selectedProgramme, 
       receiveNextPageInfo.page, receiveNextPageInfo.perPage, receiveNextPageInfo.totalPages, receiveNextPageInfo.currEnd ))
   }
 
@@ -173,9 +173,9 @@ class MainPage extends PureComponent {
           const f = this.getFacets(facet)
           f.unshift('-- Industry --')
           return f.sort()
-        case 'Year':
+        case 'Nationality':
           const a = this.getFacets(facet)
-          a.unshift('-- Year --')
+          a.unshift('-- Nationality --')
           return a.sort()
         case 'Programme':
           const p = this.getFacets(facet)
@@ -190,7 +190,7 @@ class MainPage extends PureComponent {
   
 
   render() {
-    const { selectedIndustry, selectedYear, selectedProgramme, profiles, receiveIndustry, receiveNextPageInfo, receiveFacetsInfo, history} = this.props
+    const { selectedIndustry, selectedNationality, selectedProgramme, profiles, receiveIndustry, receiveNextPageInfo, receiveFacetsInfo, history} = this.props
       console.log(this.props.receiveFacetsInfo)
 
     return (
@@ -201,15 +201,15 @@ class MainPage extends PureComponent {
             <PickerIdustry value={selectedIndustry}
                       onChange={this.handleChangeIndus}
                       options={this.loadFacets('Industry')} />
-            <PickerYear value={selectedYear}
-                      onChange={this.handleChangeYear}
-                      options={this.loadFacets('Year')} />
+            <PickerNationality value={selectedNationality}
+                      onChange={this.handleChangeNationality}
+                      options={this.loadFacets('Nationality')} />
             <PickerProgramme value={selectedProgramme}
                       onChange={this.handleChangeProg}
                       options={this.loadFacets('Programme')} />
           </div> 
 
-          <ClearFilters sIndustry={selectedIndustry} sYear={selectedYear} sProgramme={selectedProgramme} historyInfo={history} />
+          <ClearFilters sIndustry={selectedIndustry} sYear={selectedNationality} sProgramme={selectedProgramme} historyInfo={history} />
 
           <Profiles profiles={profiles} sIndustry={selectedIndustry} />
           <div className="student-profiles-search__loadingSpinner">
@@ -241,7 +241,7 @@ class MainPage extends PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { selectedIndustry, selectedYear, selectedProgramme, profileByF, receiveIndustry, receiveNextPageInfo, receiveFacetsInfo } = state
+  const { selectedIndustry, selectedNationality, selectedProgramme, profileByF, receiveIndustry, receiveNextPageInfo, receiveFacetsInfo } = state
   const {
     isFetching,
     lastUpdated,
@@ -252,7 +252,7 @@ const mapStateToProps = (state, ownProps) => {
   }
   return { 
     selectedIndustry,
-    selectedYear,
+    selectedNationality,
     selectedProgramme,
     profiles,
     isFetching,

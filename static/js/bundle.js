@@ -61,7 +61,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "19e8da6a498861d5a20e"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "f6d41e9698da045fe29d"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -46133,7 +46133,7 @@ var App = function (_Component) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__actions__ = __webpack_require__(/*! ./actions */ "./src/actions/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_Profiles__ = __webpack_require__(/*! ./components/Profiles */ "./src/components/Profiles.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_PickerIdustry__ = __webpack_require__(/*! ./components/PickerIdustry */ "./src/components/PickerIdustry.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_PickerYear__ = __webpack_require__(/*! ./components/PickerYear */ "./src/components/PickerYear.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_PickerNationality__ = __webpack_require__(/*! ./components/PickerNationality */ "./src/components/PickerNationality.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_PickerProgramme__ = __webpack_require__(/*! ./components/PickerProgramme */ "./src/components/PickerProgramme.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_Progressbar__ = __webpack_require__(/*! ./components/Progressbar */ "./src/components/Progressbar.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_prop_types__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
@@ -46196,14 +46196,14 @@ var MainPage = function (_PureComponent) {
       h.industry = nextIndus;
       var stringfiy = __WEBPACK_IMPORTED_MODULE_13_qs___default.a.stringify(h);
       _this.props.history.push('?' + stringfiy);
-    }, _this.handleChangeYear = function (nextYear) {
-      _this.props.dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__actions__["o" /* selectYear */])(nextYear));
+    }, _this.handleChangeNationality = function (nextNationality) {
+      _this.props.dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__actions__["n" /* selectNationality */])(nextNationality));
       var h = _this.getHistory();
-      h.year = nextYear;
+      h.nationality = nextNationality;
       var stringfiy = __WEBPACK_IMPORTED_MODULE_13_qs___default.a.stringify(h);
       _this.props.history.push('?' + stringfiy);
     }, _this.handleChangeProg = function (nextProg) {
-      _this.props.dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__actions__["n" /* selectProgramme */])(nextProg));
+      _this.props.dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__actions__["o" /* selectProgramme */])(nextProg));
       var h = _this.getHistory();
       h.programme = nextProg;
       var stringfiy = __WEBPACK_IMPORTED_MODULE_13_qs___default.a.stringify(h);
@@ -46212,11 +46212,11 @@ var MainPage = function (_PureComponent) {
       var _this$props = _this.props,
           dispatch = _this$props.dispatch,
           selectedIndustry = _this$props.selectedIndustry,
-          selectedYear = _this$props.selectedYear,
+          selectedNationality = _this$props.selectedNationality,
           selectedProgramme = _this$props.selectedProgramme,
           receiveNextPageInfo = _this$props.receiveNextPageInfo;
 
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__actions__["l" /* loadMore */])(selectedIndustry, selectedYear, selectedProgramme, receiveNextPageInfo.page, receiveNextPageInfo.perPage, receiveNextPageInfo.totalPages, receiveNextPageInfo.currEnd));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__actions__["l" /* loadMore */])(selectedIndustry, selectedNationality, selectedProgramme, receiveNextPageInfo.page, receiveNextPageInfo.perPage, receiveNextPageInfo.totalPages, receiveNextPageInfo.currEnd));
     }, _this.getFacets = function (selected) {
 
       var i = _this.props.receiveFacetsInfo;
@@ -46240,9 +46240,9 @@ var MainPage = function (_PureComponent) {
             var f = _this.getFacets(facet);
             f.unshift('-- Industry --');
             return f.sort();
-          case 'Year':
+          case 'Nationality':
             var a = _this.getFacets(facet);
-            a.unshift('-- Year --');
+            a.unshift('-- Nationality --');
             return a.sort();
           case 'Programme':
             var p = _this.getFacets(facet);
@@ -46275,13 +46275,13 @@ var MainPage = function (_PureComponent) {
         console.log('componentWillMount industry');
       }
 
-      if (parsed.year !== undefined) {
-        this.props.dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__actions__["o" /* selectYear */])(parsed.year));
-        console.log('componentWillMount year');
+      if (parsed.nationality !== undefined) {
+        this.props.dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__actions__["n" /* selectNationality */])(parsed.nationality));
+        console.log('componentWillMount nationality');
       }
 
       if (parsed.programme !== undefined) {
-        this.props.dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__actions__["n" /* selectProgramme */])(parsed.programme));
+        this.props.dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__actions__["o" /* selectProgramme */])(parsed.programme));
         console.log('componentWillMount programme');
       }
     }
@@ -46292,17 +46292,17 @@ var MainPage = function (_PureComponent) {
       var _props = this.props,
           dispatch = _props.dispatch,
           selectedIndustry = _props.selectedIndustry,
-          selectedYear = _props.selectedYear,
+          selectedNationality = _props.selectedNationality,
           selectedProgramme = _props.selectedProgramme;
 
-      dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__actions__["j" /* fetchProfileIfNeeded */])(selectedIndustry, selectedYear, selectedProgramme));
+      dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__actions__["j" /* fetchProfileIfNeeded */])(selectedIndustry, selectedNationality, selectedProgramme));
     }
   }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
       var dispatch = nextProps.dispatch,
           selectedIndustry = nextProps.selectedIndustry,
-          selectedYear = nextProps.selectedYear,
+          selectedNationality = nextProps.selectedNationality,
           selectedProgramme = nextProps.selectedProgramme,
           history = nextProps.history;
       //listen to browser back and forward buttons and dispatch accorrding to parameters
@@ -46317,24 +46317,24 @@ var MainPage = function (_PureComponent) {
           dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__actions__["m" /* selectIndustry */])('all'));
         }
 
-        if (parsed.year !== undefined) {
-          dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__actions__["o" /* selectYear */])(parsed.year));
-          console.log('componentWillMount year');
+        if (parsed.nationality !== undefined) {
+          dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__actions__["n" /* selectNationality */])(parsed.nationality));
+          console.log('componentWillMount nationality');
         } else {
-          dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__actions__["o" /* selectYear */])('all'));
+          dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__actions__["n" /* selectNationality */])('all'));
         }
 
         if (parsed.programme !== undefined) {
-          dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__actions__["n" /* selectProgramme */])(parsed.programme));
+          dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__actions__["o" /* selectProgramme */])(parsed.programme));
           console.log('componentWillMount programme');
         } else {
-          dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__actions__["n" /* selectProgramme */])('all'));
+          dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__actions__["o" /* selectProgramme */])('all'));
         }
       });
       //handle selectbox changes by comparing new to old value
-      if (nextProps.selectedIndustry !== this.props.selectedIndustry || nextProps.selectedYear !== this.props.selectedYear || nextProps.selectedProgramme !== this.props.selectedProgramme) {
+      if (nextProps.selectedIndustry !== this.props.selectedIndustry || nextProps.selectedNationality !== this.props.selectedNationality || nextProps.selectedProgramme !== this.props.selectedProgramme) {
 
-        dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__actions__["j" /* fetchProfileIfNeeded */])(selectedIndustry, selectedYear, selectedProgramme));
+        dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__actions__["j" /* fetchProfileIfNeeded */])(selectedIndustry, selectedNationality, selectedProgramme));
       }
     }
     //handle onchange events on selectboxes
@@ -46349,7 +46349,7 @@ var MainPage = function (_PureComponent) {
     value: function render() {
       var _props2 = this.props,
           selectedIndustry = _props2.selectedIndustry,
-          selectedYear = _props2.selectedYear,
+          selectedNationality = _props2.selectedNationality,
           selectedProgramme = _props2.selectedProgramme,
           profiles = _props2.profiles,
           receiveIndustry = _props2.receiveIndustry,
@@ -46371,14 +46371,14 @@ var MainPage = function (_PureComponent) {
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__components_PickerIdustry__["a" /* default */], { value: selectedIndustry,
               onChange: this.handleChangeIndus,
               options: this.loadFacets('Industry') }),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__components_PickerYear__["a" /* default */], { value: selectedYear,
-              onChange: this.handleChangeYear,
-              options: this.loadFacets('Year') }),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__components_PickerNationality__["a" /* default */], { value: selectedNationality,
+              onChange: this.handleChangeNationality,
+              options: this.loadFacets('Nationality') }),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__components_PickerProgramme__["a" /* default */], { value: selectedProgramme,
               onChange: this.handleChangeProg,
               options: this.loadFacets('Programme') })
           ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_11__components_ClearFilters__["a" /* default */], { sIndustry: selectedIndustry, sYear: selectedYear, sProgramme: selectedProgramme, historyInfo: history }),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_11__components_ClearFilters__["a" /* default */], { sIndustry: selectedIndustry, sYear: selectedNationality, sProgramme: selectedProgramme, historyInfo: history }),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__components_Profiles__["a" /* default */], { profiles: profiles, sIndustry: selectedIndustry }),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'div',
@@ -46430,7 +46430,7 @@ var MainPage = function (_PureComponent) {
 
 MainPage.propTypes = {
   selectedIndustry: __WEBPACK_IMPORTED_MODULE_10_prop_types___default.a.string.isRequired,
-  selectedYear: __WEBPACK_IMPORTED_MODULE_10_prop_types___default.a.string.isRequired,
+  selectedNationality: __WEBPACK_IMPORTED_MODULE_10_prop_types___default.a.string.isRequired,
   selectedProgramme: __WEBPACK_IMPORTED_MODULE_10_prop_types___default.a.string.isRequired,
   profiles: __WEBPACK_IMPORTED_MODULE_10_prop_types___default.a.array.isRequired,
   isFetching: __WEBPACK_IMPORTED_MODULE_10_prop_types___default.a.bool.isRequired,
@@ -46444,7 +46444,7 @@ MainPage.propTypes = {
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   var selectedIndustry = state.selectedIndustry,
-      selectedYear = state.selectedYear,
+      selectedNationality = state.selectedNationality,
       selectedProgramme = state.selectedProgramme,
       profileByF = state.profileByF,
       receiveIndustry = state.receiveIndustry,
@@ -46461,7 +46461,7 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 
   return {
     selectedIndustry: selectedIndustry,
-    selectedYear: selectedYear,
+    selectedNationality: selectedNationality,
     selectedProgramme: selectedProgramme,
     profiles: profiles,
     isFetching: isFetching,
@@ -46480,8 +46480,8 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 /*!******************************!*\
   !*** ./src/actions/index.js ***!
   \******************************/
-/*! exports provided: REQUEST_PROFILES, RECEIVE_PROFILES, INVALIDATE_PROFILES, SELECT_INDUSTRY, SELECT_YEAR, SELECT_PROGRAMME, GET_INDUSTRY, NEXT_PAGE_INFO, FACETS_INFO, selectIndustry, getIndusrty, selectYear, selectProgramme, invalidateProfiles, requestProfiles, receiveProfiles, nextPageInfo, getFacetsInfo, loadMore, fetchProfileIfNeeded */
-/*! exports used: FACETS_INFO, GET_INDUSTRY, INVALIDATE_PROFILES, NEXT_PAGE_INFO, RECEIVE_PROFILES, REQUEST_PROFILES, SELECT_INDUSTRY, SELECT_PROGRAMME, SELECT_YEAR, fetchProfileIfNeeded, getFacetsInfo, loadMore, selectIndustry, selectProgramme, selectYear */
+/*! exports provided: REQUEST_PROFILES, RECEIVE_PROFILES, INVALIDATE_PROFILES, SELECT_INDUSTRY, SELECT_NATIONALITY, SELECT_PROGRAMME, GET_INDUSTRY, NEXT_PAGE_INFO, FACETS_INFO, selectIndustry, getIndusrty, selectNationality, selectProgramme, invalidateProfiles, requestProfiles, receiveProfiles, nextPageInfo, getFacetsInfo, loadMore, fetchProfileIfNeeded */
+/*! exports used: FACETS_INFO, GET_INDUSTRY, INVALIDATE_PROFILES, NEXT_PAGE_INFO, RECEIVE_PROFILES, REQUEST_PROFILES, SELECT_INDUSTRY, SELECT_NATIONALITY, SELECT_PROGRAMME, fetchProfileIfNeeded, getFacetsInfo, loadMore, selectIndustry, selectNationality, selectProgramme */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -46489,15 +46489,15 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return RECEIVE_PROFILES; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return INVALIDATE_PROFILES; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return SELECT_INDUSTRY; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return SELECT_YEAR; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return SELECT_PROGRAMME; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return SELECT_NATIONALITY; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return SELECT_PROGRAMME; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return GET_INDUSTRY; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return NEXT_PAGE_INFO; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FACETS_INFO; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return selectIndustry; });
 /* unused harmony export getIndusrty */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return selectYear; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return selectProgramme; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return selectNationality; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return selectProgramme; });
 /* unused harmony export invalidateProfiles */
 /* unused harmony export requestProfiles */
 /* unused harmony export receiveProfiles */
@@ -46509,7 +46509,7 @@ var REQUEST_PROFILES = 'REQUEST_PROFILES';
 var RECEIVE_PROFILES = 'RECEIVE_PROFILES';
 var INVALIDATE_PROFILES = 'INVALIDATE_PROFILES';
 var SELECT_INDUSTRY = 'SELECT_INDUSTRY';
-var SELECT_YEAR = 'SELECT_YEAR';
+var SELECT_NATIONALITY = 'SELECT_NATIONALITY';
 var SELECT_PROGRAMME = 'SELECT_PROGRAMME';
 var GET_INDUSTRY = 'GET_INDUSTRY';
 var NEXT_PAGE_INFO = 'NEXT_PAGE_INFO';
@@ -46529,10 +46529,10 @@ var getIndusrty = function getIndusrty(gIndusrty) {
   };
 };
 
-var selectYear = function selectYear(year) {
+var selectNationality = function selectNationality(nationality) {
   return {
-    type: SELECT_YEAR,
-    year: year
+    type: SELECT_NATIONALITY,
+    nationality: nationality
   };
 };
 
@@ -46550,11 +46550,11 @@ var invalidateProfiles = function invalidateProfiles(error) {
   };
 };
 
-var requestProfiles = function requestProfiles(industry, year, programme) {
+var requestProfiles = function requestProfiles(industry, nationality, programme) {
   return {
     type: REQUEST_PROFILES,
     industry: industry,
-    year: year,
+    nationality: nationality,
     programme: programme
   };
 };
@@ -46588,13 +46588,24 @@ var getFacetsInfo = function getFacetsInfo(json) {
   };
 };
 
-var fetchPosts = function fetchPosts(industry, year, programme) {
+var fetchPosts = function fetchPosts(industry, nationality, programme) {
   return function (dispatch) {
-    dispatch(requestProfiles(industry, year, programme));
+    dispatch(requestProfiles(industry, nationality, programme));
     var i = String(industry),
-        n = String(year),
-        p = String(programme);
-    return fetch('https://www.cass.city.ac.uk/fb/search.html?form=json&collection=CASS-Student-Profiles&meta_I_orsand=' + (i === 'all' ? '' : industry) + '&meta_Y_orsand=' + (n === 'all' ? '' : year) + '&meta_P_orsand=' + (p === 'all' ? '' : programme) + '&num_ranks=6&sort=title').then(function (response) {
+        n = String(nationality),
+        p = String(programme),
+        pq = void 0;
+
+    if (p === 'all') {
+      pq = '';
+    } else if (p === 'executive mba') {
+      pq = '"' + p + '"' + '&meta_P_not="in%20dubai"';
+    } else {
+      pq = '"' + p + '"';
+    }
+
+    var url = 'https://www.cass.city.ac.uk/fb/search.html?form=json&collection=CASS-Student-Profiles&meta_I_orsand=' + (i === 'all' ? '' : industry) + '&meta_N_orsand=' + (n === 'all' ? '' : nationality) + '&meta_P_and=' + pq + '&num_ranks=6&sort=title';
+    return fetch(url).then(function (response) {
       return response.json();
     }).then(function json(j) {
       dispatch(receiveProfiles(industry, j));dispatch(nextPageInfo(j));
@@ -46604,18 +46615,29 @@ var fetchPosts = function fetchPosts(industry, year, programme) {
   };
 };
 
-var loadMore = function loadMore(industry, year, programme, page, perPage, totalPages, currEnd) {
+var loadMore = function loadMore(industry, nationality, programme, page, perPage, totalPages, currEnd) {
   return function (dispatch, getState) {
     var page = page,
         perpage = perPage,
         totalPage = totalPages,
         currEnd = currEnd,
         i = String(industry),
-        n = String(year),
-        p = String(programme);
+        n = String(nationality),
+        p = String(programme),
+        pq = void 0;
+
+    if (p === 'all') {
+      pq = '';
+    } else if (p === 'executive mba') {
+      pq = '"' + p + '"' + '&meta_P_not="in%20dubai"';
+    } else {
+      pq = '"' + p + '"';
+    }
+
     if (perpage < totalPage) {
       var v = perpage + 6;
-      return fetch('https://www.cass.city.ac.uk/fb/search.html?form=json&collection=CASS-Student-Profiles&meta_I_orsand=' + (i === 'all' ? '' : industry) + '&meta_Y_orsand=' + (n === 'all' ? '' : year) + '&meta_P_orsand=' + (p === 'all' ? '' : programme) + '&num_ranks=' + v + '&sort=title').then(function (response) {
+      var url = 'https://www.cass.city.ac.uk/fb/search.html?form=json&collection=CASS-Student-Profiles&meta_I_orsand=' + (i === 'all' ? '' : industry) + '&meta_N_orsand=' + (n === 'all' ? '' : nationality) + '&meta_P_and=' + pq + ('&num_ranks=' + v + '&sort=title');
+      return fetch(url).then(function (response) {
         return response.json();
       }).then(function json(j) {
         dispatch(receiveProfiles(industry, j));dispatch(nextPageInfo(j));
@@ -46624,10 +46646,10 @@ var loadMore = function loadMore(industry, year, programme, page, perPage, total
   };
 };
 
-var fetchProfileIfNeeded = function fetchProfileIfNeeded(industry, year, programme) {
+var fetchProfileIfNeeded = function fetchProfileIfNeeded(industry, nationality, programme) {
   return function (dispatch, getState) {
 
-    return dispatch(fetchPosts(industry, year, programme)); //change to use local JSON from funnelback
+    return dispatch(fetchPosts(industry, nationality, programme)); //change to use local JSON from funnelback
     //return dispatch(receiveProfiles(industry, Students))
   };
 };
@@ -46691,10 +46713,10 @@ var ClearFilters = function (_React$Component) {
 			if (i === 1) {
 				var _h = this.props.location.search;
 				var _parsed = __WEBPACK_IMPORTED_MODULE_3_qs___default.a.parse(_h, { ignoreQueryPrefix: true });
-				_parsed.year = 'all';
+				_parsed.nationality = 'all';
 				var _stringfiy = __WEBPACK_IMPORTED_MODULE_3_qs___default.a.stringify(_parsed);
 				this.props.history.push('?' + _stringfiy);
-				this.props.dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions__["o" /* selectYear */])('all'));
+				this.props.dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions__["n" /* selectNationality */])('all'));
 			}
 			if (i === 2) {
 				var _h2 = this.props.location.search;
@@ -46702,7 +46724,7 @@ var ClearFilters = function (_React$Component) {
 				_parsed2.programme = 'all';
 				var _stringfiy2 = __WEBPACK_IMPORTED_MODULE_3_qs___default.a.stringify(_parsed2);
 				this.props.history.push('?' + _stringfiy2);
-				this.props.dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions__["n" /* selectProgramme */])('all'));
+				this.props.dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions__["o" /* selectProgramme */])('all'));
 			}
 		}
 	}, {
@@ -46712,11 +46734,11 @@ var ClearFilters = function (_React$Component) {
 
 			var _props = this.props,
 			    selectedIndustry = _props.selectedIndustry,
-			    selectedYear = _props.selectedYear,
+			    selectedNationality = _props.selectedNationality,
 			    selectedProgramme = _props.selectedProgramme,
 			    history = _props.history;
 
-			var f = [selectedIndustry, selectedYear, selectedProgramme];
+			var f = [selectedIndustry, selectedNationality, selectedProgramme];
 			return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 				'div',
 				{ className: 'student-profiles-search__filters-wrap' },
@@ -46751,13 +46773,13 @@ var ClearFilters = function (_React$Component) {
 var mapStateToProps = function mapStateToProps(state) {
 	var selectedIndustry = state.selectedIndustry,
 	    selectedProgramme = state.selectedProgramme,
-	    selectedYear = state.selectedYear;
+	    selectedNationality = state.selectedNationality;
 
 
 	return {
 		selectedIndustry: selectedIndustry,
 		selectedProgramme: selectedProgramme,
-		selectedYear: selectedYear
+		selectedNationality: selectedNationality
 	};
 };
 
@@ -46819,6 +46841,60 @@ PickerIdustry.propTypes = {
 
 /***/ }),
 
+/***/ "./src/components/PickerNationality.js":
+/*!*********************************************!*\
+  !*** ./src/components/PickerNationality.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/*! exports used: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+
+
+
+var PickerNationality = function PickerNationality(_ref) {
+  var value = _ref.value,
+      _onChange = _ref.onChange,
+      options = _ref.options;
+  return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+    'div',
+    { className: 'filter--box filter--box--nationality' },
+    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'label',
+      { className: 'sr-only' },
+      'Year'
+    ),
+    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'select',
+      { onChange: function onChange(e) {
+          return _onChange(e.target.value);
+        }, value: value },
+      options.map(function (option, i) {
+        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'option',
+          { value: i === 0 ? 'all' : option, key: option },
+          option
+        );
+      })
+    )
+  );
+};
+
+PickerNationality.propTypes = {
+  options: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.arrayOf(__WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string.isRequired).isRequired,
+  value: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string.isRequired,
+  onChange: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func.isRequired
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (PickerNationality);
+
+/***/ }),
+
 /***/ "./src/components/PickerProgramme.js":
 /*!*******************************************!*\
   !*** ./src/components/PickerProgramme.js ***!
@@ -46870,60 +46946,6 @@ PickerProgramme.propTypes = {
 };
 
 /* harmony default export */ __webpack_exports__["a"] = (PickerProgramme);
-
-/***/ }),
-
-/***/ "./src/components/PickerYear.js":
-/*!**************************************!*\
-  !*** ./src/components/PickerYear.js ***!
-  \**************************************/
-/*! exports provided: default */
-/*! exports used: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-
-
-
-var PickerYear = function PickerYear(_ref) {
-  var value = _ref.value,
-      _onChange = _ref.onChange,
-      options = _ref.options;
-  return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-    'div',
-    { className: 'filter--box filter--box--nationality' },
-    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      'label',
-      { className: 'sr-only' },
-      'Year'
-    ),
-    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      'select',
-      { onChange: function onChange(e) {
-          return _onChange(e.target.value);
-        }, value: value },
-      options.map(function (option, i) {
-        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'option',
-          { value: i === 0 ? 'all' : option, key: option },
-          option
-        );
-      })
-    )
-  );
-};
-
-PickerYear.propTypes = {
-  options: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.arrayOf(__WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string.isRequired).isRequired,
-  value: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string.isRequired,
-  onChange: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func.isRequired
-};
-
-/* harmony default export */ __webpack_exports__["a"] = (PickerYear);
 
 /***/ }),
 
@@ -47010,13 +47032,13 @@ var Profiles = function Profiles(_ref) {
 						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 							'span',
 							{ className: 'filterCat' },
-							'Year:'
+							'Nationality:'
 						),
 						' ',
 						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 							'span',
 							{ className: 'firstLetterCap' },
-							profile.metaData.Y
+							profile.metaData.N
 						)
 					)
 				)
@@ -47230,13 +47252,13 @@ var selectedIndustry = function selectedIndustry() {
   }
 };
 
-var selectedYear = function selectedYear() {
+var selectedNationality = function selectedNationality() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'all';
   var action = arguments[1];
 
   switch (action.type) {
-    case __WEBPACK_IMPORTED_MODULE_2__actions__["i" /* SELECT_YEAR */]:
-      return action.year;
+    case __WEBPACK_IMPORTED_MODULE_2__actions__["h" /* SELECT_NATIONALITY */]:
+      return action.nationality;
     default:
       return state;
   }
@@ -47247,7 +47269,7 @@ var selectedProgramme = function selectedProgramme() {
   var action = arguments[1];
 
   switch (action.type) {
-    case __WEBPACK_IMPORTED_MODULE_2__actions__["h" /* SELECT_PROGRAMME */]:
+    case __WEBPACK_IMPORTED_MODULE_2__actions__["i" /* SELECT_PROGRAMME */]:
       return action.programme;
     default:
       return state;
@@ -47343,7 +47365,7 @@ var profileByF = function profileByF() {
 var rootReducer = Object(__WEBPACK_IMPORTED_MODULE_0_redux__["c" /* combineReducers */])({
   profileByF: profileByF,
   selectedIndustry: selectedIndustry,
-  selectedYear: selectedYear,
+  selectedNationality: selectedNationality,
   selectedProgramme: selectedProgramme,
   receiveIndustry: receiveIndustry,
   receiveNextPageInfo: receiveNextPageInfo,
