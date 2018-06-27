@@ -47,17 +47,14 @@ class MainPage extends PureComponent {
     
     if(parsed.industry !== undefined){
       this.props.dispatch(selectIndustry(parsed.industry))
-      console.log('componentWillMount industry')
     }
       
     if(parsed.nationality !== undefined){
       this.props.dispatch(selectNationality(parsed.nationality))
-      console.log('componentWillMount nationality')
     }
 
     if(parsed.programme !== undefined){
       this.props.dispatch(selectProgramme(parsed.programme))
-      console.log('componentWillMount programme')
     }
 
     
@@ -74,24 +71,20 @@ class MainPage extends PureComponent {
     //listen to browser back and forward buttons and dispatch accorrding to parameters
     history.listen(function(location) {
       let parsed =  qs.parse(history.location.search, { ignoreQueryPrefix: true })
-      console.log(parsed)
       if(parsed.industry !== undefined){
         dispatch(selectIndustry(parsed.industry))
-        console.log('componentWillMount industry')
       }else{
         dispatch(selectIndustry('all'))
       }
       
       if(parsed.nationality !== undefined){
         dispatch(selectNationality(parsed.nationality))
-        console.log('componentWillMount nationality')
       }else{
         dispatch(selectNationality('all'))
       }
 
       if(parsed.programme !== undefined){
         dispatch(selectProgramme(parsed.programme))
-        console.log('componentWillMount programme')
       }else{
         dispatch(selectProgramme('all'))
       }
@@ -191,7 +184,6 @@ class MainPage extends PureComponent {
 
   render() {
     const { selectedIndustry, selectedNationality, selectedProgramme, profiles, receiveIndustry, receiveNextPageInfo, receiveFacetsInfo, history} = this.props
-      console.log(this.props.receiveFacetsInfo)
 
     return (
       <div className="student-profiles-search">
