@@ -144,8 +144,6 @@ class MainPage extends PureComponent {
   getFacets = selected => {
     
     const i = this.props.receiveFacetsInfo
-    console.log(selected)
-    console.log(i)
     const a = []
     i.forEach( e => {
             if(e.name === selected)

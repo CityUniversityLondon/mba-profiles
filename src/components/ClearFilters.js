@@ -36,7 +36,7 @@ class ClearFilters extends React.Component {
 			}
 		}
 	render(){
-		const { selectedIndustry, selectedNationality, selectedProgramme, history } = this.props
+		const { selectedIndustry, selectedNationality, selectedProgramme } = this.props
 		let f = [selectedIndustry, selectedNationality, selectedProgramme]
 		return(
 				<div className="student-profiles-search__filters-wrap">
