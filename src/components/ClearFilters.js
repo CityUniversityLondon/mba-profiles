@@ -15,6 +15,7 @@ class ClearFilters extends React.Component {
     			const parsed = qs.parse(h, { ignoreQueryPrefix: true })
     			parsed.industry = 'all'
     			const stringfiy = qs.stringify(parsed)
+    		
     			this.props.history.push('?'+stringfiy)
 				this.props.dispatch(selectIndustry('all'))
 			}
@@ -46,7 +47,7 @@ class ClearFilters extends React.Component {
 							if(filter !== 'all'){
 							return (								
 								
-									<a href={filter} key={i} data-filter={i} onClick={(e => this.handleClick(e, i))}><span>{filter}<FaClose/></span></a>
+									<a key={i} data-filter={i} onClick={e => this.handleClick(e, i)}><span>{filter}<FaClose/></span></a>
 								
 								)
 							}

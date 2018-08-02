@@ -36,6 +36,7 @@ class MainPage extends PureComponent {
   }
 
   componentWillMount(){
+
     //load facets info from funnelback and dispatch into redux store
     fetch(`https://www.cass.city.ac.uk/fb/search.html?form=json&collection=CASS-Student-Profiles`)
     .then(response => response.json())
@@ -61,12 +62,14 @@ class MainPage extends PureComponent {
   }
 
   componentDidMount() {
+ 
     //after component mount dispatch to fetch profile
     const { dispatch, selectedIndustry, selectedNationality, selectedProgramme } = this.props
     dispatch(fetchProfileIfNeeded( selectedIndustry, selectedNationality, selectedProgramme ))
   }
 
   componentWillReceiveProps(nextProps) {
+    
     const { dispatch, selectedIndustry, selectedNationality, selectedProgramme, history } = nextProps
     //listen to browser back and forward buttons and dispatch accorrding to parameters
     history.listen(function(location) {
@@ -88,6 +91,7 @@ class MainPage extends PureComponent {
       }else{
         dispatch(selectProgramme('all'))
       }
+
     })
     //handle selectbox changes by comparing new to old value
     if ((nextProps.selectedIndustry !== this.props.selectedIndustry) || 
@@ -95,10 +99,12 @@ class MainPage extends PureComponent {
       (nextProps.selectedProgramme !== this.props.selectedProgramme)) {
       
       dispatch(fetchProfileIfNeeded( selectedIndustry, selectedNationality, selectedProgramme ))
+      
     }
   }
   //handle onchange events on selectboxes
   getHistory = () =>{
+
     const h = this.props.location.search
     const parsed = qs.parse(h, { ignoreQueryPrefix: true })
     return parsed

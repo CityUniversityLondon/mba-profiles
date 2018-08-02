@@ -34,7 +34,7 @@ window.store =store
 render(
   <Provider store={store}>
     <Router>	
-    	<Route exact path="/staging/labs/danny/student-profiles2:filter?" component={MainPage} />
+    	<Route exact path="/study/mba/mba-alumni-stories:filter?" component={MainPage} />
 
     </Router>
   </Provider>,
