@@ -30,9 +30,9 @@ window.React =React
 window.store =store
 
 render(
-  <Provider store={store}>//wrap provider Redux store makinf available
+  <Provider store={store}>
     <Router>	
-    	<Route exact path="/study/mba/mba-alumni-stories:filter?" component={MainPage} />//rount path to display react app
+    	<Route exact path="/study/mba/mba-alumni-stories:filter?" component={MainPage} />
 
     </Router>
   </Provider>,

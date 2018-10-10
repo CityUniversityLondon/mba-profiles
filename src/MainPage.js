@@ -37,13 +37,13 @@ class MainPage extends PureComponent {
 
   componentWillMount(){
 
-    //load facets info from funnelback and dispatch into redux store
+
     fetch(`https://www.cass.city.ac.uk/fb/search.html?form=json&collection=CASS-Student-Profiles`)
     .then(response => response.json())
     .then(json => this.props.dispatch(getFacetsInfo(json)))  
 
   
-    //using URL query parameter to set state 
+
     const parsed = qs.parse(this.props.history.location.search, { ignoreQueryPrefix: true })
     
     if(parsed.industry !== undefined){
@@ -63,7 +63,7 @@ class MainPage extends PureComponent {
 
   componentDidMount() {
  
-    //after component mount dispatch to fetch profile
+
     const { dispatch, selectedIndustry, selectedNationality, selectedProgramme } = this.props
     dispatch(fetchProfileIfNeeded( selectedIndustry, selectedNationality, selectedProgramme ))
   }
@@ -71,7 +71,7 @@ class MainPage extends PureComponent {
   componentWillReceiveProps(nextProps) {
     
     const { dispatch, selectedIndustry, selectedNationality, selectedProgramme, history } = nextProps
-    //listen to browser back and forward buttons and dispatch accorrding to parameters
+
     history.listen(function(location) {
       let parsed =  qs.parse(history.location.search, { ignoreQueryPrefix: true })
       if(parsed.industry !== undefined){
@@ -93,7 +93,7 @@ class MainPage extends PureComponent {
       }
 
     })
-    //handle selectbox changes by comparing new to old value
+
     if ((nextProps.selectedIndustry !== this.props.selectedIndustry) || 
       (nextProps.selectedNationality !== this.props.selectedNationality) || 
       (nextProps.selectedProgramme !== this.props.selectedProgramme)) {
@@ -102,7 +102,7 @@ class MainPage extends PureComponent {
       
     }
   }
-  //handle onchange events on selectboxes
+  
   getHistory = () =>{
 
     const h = this.props.location.search
@@ -138,7 +138,7 @@ class MainPage extends PureComponent {
     const stringfiy = qs.stringify(h)
     this.props.history.push('?'+stringfiy)
   }
-  //handle load more button
+
   loadMore = () => {
     const { dispatch, selectedIndustry, selectedNationality, selectedProgramme, receiveNextPageInfo } = this.props
     dispatch(loadMore( selectedIndustry, selectedNationality, selectedProgramme, 
@@ -146,14 +146,17 @@ class MainPage extends PureComponent {
   }
 
   
-  // load selectbox facets from state 
+
   getFacets = selected => {
     
     const i = this.props.receiveFacetsInfo
     const a = []
     i.forEach( e => {
             if(e.name === selected)
-              e.options.forEach( el => a.push(el.v)) 
+              e.options.forEach( el => {
+                let nat = el.v.split('; ');
+                a.push(nat)
+              }) 
           })
     
     return a
@@ -172,8 +175,10 @@ class MainPage extends PureComponent {
           return f.sort()
         case 'Nationality':
           const a = this.getFacets(facet)
-          a.unshift('-- Nationality --')
-          return a.sort()
+          let flatten = [].concat(...a);
+          let removeDup = [...(new Set(flatten))];
+          removeDup.unshift('-- Nationality --')
+          return removeDup.sort()
         case 'Programme':
           const p = this.getFacets(facet)
           p.unshift('-- Programme --')

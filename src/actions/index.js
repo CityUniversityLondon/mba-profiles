@@ -117,7 +117,7 @@ export const loadMore = (industry, nationality, programme, page, perPage, totalP
 
 export const fetchProfileIfNeeded = (industry, nationality, programme) => (dispatch, getState) => {
   
-    return dispatch(fetchPosts(industry, nationality, programme)) //change to use local JSON from funnelback
-    //return dispatch(receiveProfiles(industry, Students))
+    return dispatch(fetchPosts(industry, nationality, programme)) 
+    
   
 }
