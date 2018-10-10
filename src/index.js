@@ -1,5 +1,4 @@
-import "babel-polyfill";
-
+import "babel-polyfill";//ES6 polyfill for IE10 and down
 import React from 'react';
 import { render } from 'react-dom';
 import { createStore, applyMiddleware } from 'redux'
@@ -7,7 +6,6 @@ import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import { createLogger } from 'redux-logger'
 import reducer from './reducers'
-import './index.css';
 import MainPage from './MainPage';
 
 
@@ -32,9 +30,9 @@ window.React =React
 window.store =store
 
 render(
-  <Provider store={store}>
+  <Provider store={store}>//wrap provider Redux store makinf available
     <Router>	
-    	<Route exact path="/study/mba/mba-alumni-stories:filter?" component={MainPage} />
+    	<Route exact path="/study/mba/mba-alumni-stories:filter?" component={MainPage} />//rount path to display react app
 
     </Router>
   </Provider>,
