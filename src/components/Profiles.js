@@ -33,7 +33,7 @@ const Profiles = ({profiles, sIndustry}) =>(
 							}
 							{
 								profile.metaData.N ? 
-									<p><span className="filterCat">Nationality:</span> <span className="firstLetterCap">{profile.metaData.N}</span></p>
+									<p><span className="filterCat">Nationality:</span> <span className="firstLetterCap">{profile.metaData.N.replace(';','/')}</span></p>
 									:
 									null
 							}
