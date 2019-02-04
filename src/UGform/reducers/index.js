@@ -1,13 +1,13 @@
 import { combineReducers } from 'redux'
 import { routerReducer } from 'react-router-redux';
 import { REQUEST_PROFILES, RECEIVE_PROFILES, INVALIDATE_PROFILES,
- SELECT_INDUSTRY, SELECT_NATIONALITY, SELECT_PROGRAMME, GET_INDUSTRY, NEXT_PAGE_INFO, FACETS_INFO } from '../actions'
+ SELECT_STYPE, SELECT_NATIONALITY, SELECT_PROGRAMME, GET_INDUSTRY, NEXT_PAGE_INFO, FACETS_INFO } from '../actions'
 
 
-const selectedIndustry = (state = 'all', action) => {
+const selectedSType = (state = 'all', action) => {
   switch (action.type) {
-    case SELECT_INDUSTRY:
-      return action.industry
+    case SELECT_STYPE:
+      return action.stype
     default:
       return state
   }
@@ -110,7 +110,7 @@ const profileByF = (state = { }, action) => {
 
 const rootReducer = combineReducers({
   profileByF,
-  selectedIndustry,
+  selectedSType,
   selectedNationality,
   selectedProgramme,
   receiveIndustry,

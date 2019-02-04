@@ -3,10 +3,10 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 
-import { fetchProfileIfNeeded, loadMore, invalidateProfiles, selectIndustry,
+import { fetchProfileIfNeeded, loadMore, invalidateProfiles, selectSType,
  selectNationality, selectProgramme, getIndusrty, receiveProfiles, nextPageInfo, getFacetsInfo } from './actions'
 import Profiles from './components/Profiles'
-import PickerIdustry from './components/PickerIdustry'
+import PickerSType from './components/PickerSType'
 import PickerNationality from './components/PickerNationality'
 import PickerProgramme from './components/PickerProgramme'
 import Progressbar from './components/Progressbar'
@@ -22,7 +22,7 @@ import { BeatLoader } from 'react-spinners';
 class app extends PureComponent {
   
   static propTypes = {
-    selectedIndustry: PropTypes.string.isRequired,
+    selectedSType: PropTypes.string.isRequired,
     selectedNationality: PropTypes.string.isRequired,
     selectedProgramme: PropTypes.string.isRequired,
     profiles: PropTypes.array.isRequired,
@@ -37,16 +37,14 @@ class app extends PureComponent {
   componentWillMount(){
 
 
-    fetch(`https://www.cass.city.ac.uk/fb/search.html?form=json&collection=CASS-Student-Profiles&meta_L_orsand=UG`)
-    .then(response => response.json())
-    .then(json => this.props.dispatch(getFacetsInfo(json)))  
+    
 
   
 
     const parsed = qs.parse(this.props.history.location.search, { ignoreQueryPrefix: true })
     
-    if(parsed.industry !== undefined){
-      this.props.dispatch(selectIndustry(parsed.industry))
+    if(parsed.stype !== undefined){
+      this.props.dispatch(selectSType(parsed.stype))
     }
       
     if(parsed.nationality !== undefined){
@@ -61,22 +59,26 @@ class app extends PureComponent {
   }
 
   componentDidMount() {
+
+    fetch(`https://www.cass.city.ac.uk/fb/search.html?form=json&collection=CASS-Student-Profiles&meta_L_orsand=UG`)
+    .then(response => response.json())
+    .then(json => this.props.dispatch(getFacetsInfo(json)))  
  
 
-    const { dispatch, selectedIndustry, selectedNationality, selectedProgramme } = this.props
-    dispatch(fetchProfileIfNeeded( selectedIndustry, selectedNationality, selectedProgramme ))
+    const { dispatch, selectedSType, selectedNationality, selectedProgramme } = this.props
+    dispatch(fetchProfileIfNeeded( selectedSType, selectedNationality, selectedProgramme ))
   }
 
   componentWillReceiveProps(nextProps) {
     
-    const { dispatch, selectedIndustry, selectedNationality, selectedProgramme, history } = nextProps
+    const { dispatch, selectedSType, selectedNationality, selectedProgramme, history } = nextProps
 
     history.listen(function(location) {
       let parsed =  qs.parse(history.location.search, { ignoreQueryPrefix: true })
-      if(parsed.industry !== undefined){
-        dispatch(selectIndustry(parsed.industry))
+      if(parsed.stype !== undefined){
+        dispatch(selectSType(parsed.stype))
       }else{
-        dispatch(selectIndustry('all'))
+        dispatch(selectSType('all'))
       }
       
       if(parsed.nationality !== undefined){
@@ -93,11 +95,11 @@ class app extends PureComponent {
 
     })
 
-    if ((nextProps.selectedIndustry !== this.props.selectedIndustry) || 
+    if ((nextProps.selectedSType !== this.props.selectedSType) || 
       (nextProps.selectedNationality !== this.props.selectedNationality) || 
       (nextProps.selectedProgramme !== this.props.selectedProgramme)) {
       
-      dispatch(fetchProfileIfNeeded( selectedIndustry, selectedNationality, selectedProgramme ))
+      dispatch(fetchProfileIfNeeded( selectedSType, selectedNationality, selectedProgramme ))
       
     }
   }
@@ -114,9 +116,9 @@ class app extends PureComponent {
   }
 
   handleChangeIndus = nextIndus => {
-    this.props.dispatch(selectIndustry(nextIndus))
+    this.props.dispatch(selectSType(nextIndus))
     const h = this.getHistory()
-    h.industry = nextIndus
+    h.stype = nextIndus
     const stringfiy = qs.stringify(h)
     this.props.history.push('?'+stringfiy)
   }
@@ -139,8 +141,8 @@ class app extends PureComponent {
   }
 
   loadMore = () => {
-    const { dispatch, selectedIndustry, selectedNationality, selectedProgramme, receiveNextPageInfo } = this.props
-    dispatch(loadMore( selectedIndustry, selectedNationality, selectedProgramme, 
+    const { dispatch, selectedSType, selectedNationality, selectedProgramme, receiveNextPageInfo } = this.props
+    dispatch(loadMore( selectedSType, selectedNationality, selectedProgramme, 
       receiveNextPageInfo.page, receiveNextPageInfo.perPage, receiveNextPageInfo.totalPages, receiveNextPageInfo.currEnd ))
   }
 
@@ -168,9 +170,9 @@ class app extends PureComponent {
     }
     else{
       switch (facet){
-        case 'Industry':
+        case 'sType':
           const f = this.getFacets(facet)
-          f.unshift('-- Industry --')
+          f.unshift('-- Student type --')
           return f.sort()
         case 'Nationality':
           const a = this.getFacets(facet)
@@ -191,16 +193,16 @@ class app extends PureComponent {
   
 
   render() {
-    const { selectedIndustry, selectedNationality, selectedProgramme, profiles, receiveIndustry, receiveNextPageInfo, receiveFacetsInfo, history} = this.props
+    const { selectedSType, selectedNationality, selectedProgramme, profiles, receiveIndustry, receiveNextPageInfo, receiveFacetsInfo, history} = this.props
 
     return (
       <div className="student-profiles-search">
         <div className="student-profiles-search__top">
 
           <div className="student-profiles-search__filters">
-            <PickerIdustry value={selectedIndustry}
+            <PickerSType value={selectedSType}
                       onChange={this.handleChangeIndus}
-                      options={this.loadFacets('Industry')} />
+                      options={this.loadFacets('sType')} />
             <PickerNationality value={selectedNationality}
                       onChange={this.handleChangeNationality}
                       options={this.loadFacets('Nationality')} />
@@ -209,9 +211,9 @@ class app extends PureComponent {
                       options={this.loadFacets('Programme')} />
           </div> 
 
-          <ClearFilters sIndustry={selectedIndustry} sYear={selectedNationality} sProgramme={selectedProgramme} historyInfo={history} />
+          <ClearFilters sIndustry={selectedSType} sYear={selectedNationality} sProgramme={selectedProgramme} historyInfo={history} />
 
-          <Profiles profiles={profiles} sIndustry={selectedIndustry} />
+          <Profiles profiles={profiles} sIndustry={selectedSType} />
           <div className="student-profiles-search__loadingSpinner">
             <BeatLoader
               color={'#88d1ce'} 
@@ -241,17 +243,17 @@ class app extends PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { selectedIndustry, selectedNationality, selectedProgramme, profileByF, receiveIndustry, receiveNextPageInfo, receiveFacetsInfo } = state
+  const { selectedSType, selectedNationality, selectedProgramme, profileByF, receiveIndustry, receiveNextPageInfo, receiveFacetsInfo } = state
   const {
     isFetching,
     lastUpdated,
     items: profiles
-  } = profileByF[selectedIndustry] || {
+  } = profileByF[selectedSType] || {
     isFetching: true,
     items: [],
   }
   return { 
-    selectedIndustry,
+    selectedSType,
     selectedNationality,
     selectedProgramme,
     profiles,

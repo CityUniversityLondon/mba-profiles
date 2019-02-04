@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { selectIndustry, selectNationality, selectProgramme } from '../actions'
+import { selectSType, selectNationality, selectProgramme } from '../actions'
 import qs from 'qs';
 import { withRouter } from "react-router-dom";
 import FaClose from 'react-icons/lib/fa/close';
@@ -13,11 +13,11 @@ class ClearFilters extends React.Component {
 			if (i === 0) {
 				const h = this.props.location.search
     			const parsed = qs.parse(h, { ignoreQueryPrefix: true })
-    			parsed.industry = 'all'
+    			parsed.stype = 'all'
     			const stringfiy = qs.stringify(parsed)
     		
     			this.props.history.push('?'+stringfiy)
-				this.props.dispatch(selectIndustry('all'))
+				this.props.dispatch(selectSType('all'))
 			}
 			if (i === 1) {
 				const h = this.props.location.search
@@ -37,8 +37,8 @@ class ClearFilters extends React.Component {
 			}
 		}
 	render(){
-		const { selectedIndustry, selectedNationality, selectedProgramme } = this.props
-		let f = [selectedIndustry, selectedNationality, selectedProgramme]
+		const { selectedSType, selectedNationality, selectedProgramme } = this.props
+		let f = [selectedSType, selectedNationality, selectedProgramme]
 		return(
 				<div className="student-profiles-search__filters-wrap">
 					<strong>Active filters:</strong>
@@ -60,10 +60,10 @@ class ClearFilters extends React.Component {
 
 
 const mapStateToProps = (state) => {
-	const { selectedIndustry, selectedProgramme, selectedNationality } = state
+	const { selectedSType, selectedProgramme, selectedNationality } = state
 
 	return{
-		selectedIndustry,
+		selectedSType,
 		selectedProgramme,
 		selectedNationality
 	}
