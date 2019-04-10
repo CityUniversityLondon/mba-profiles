@@ -1,4 +1,4 @@
-import "babel-polyfill";//ES6 polyfill for IE10 and down
+//import "babel-polyfill";//ES6 polyfill for IE10 and down
 import React from 'react';
 import { render } from 'react-dom';
 import { createStore, applyMiddleware } from 'redux'
