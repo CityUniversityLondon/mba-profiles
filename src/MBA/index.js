@@ -1,4 +1,4 @@
-import "babel-polyfill";//ES6 polyfill for IE10 and down
+//import "babel-polyfill";//ES6 polyfill for IE10 and down
 import React from 'react';
 import { render } from 'react-dom';
 import { createStore, applyMiddleware } from 'redux'
@@ -10,33 +10,32 @@ import MainPage from './MainPage';
 
 
 import {
-  BrowserRouter as Router, Route 
+    BrowserRouter as Router,
+    Route
 } from 'react-router-dom';
 
-const middleware = [ thunk ]
+const middleware = [thunk]
 if (process.env.NODE_ENV !== 'production') {
-  middleware.push(createLogger())
+    middleware.push(createLogger())
 }
 
 
 const store = createStore(
-  reducer,
-  applyMiddleware(...middleware)
+    reducer,
+    applyMiddleware(...middleware)
 )
 
 
 
-window.React =React
-window.store =store
+window.React = React
+window.store = store
 
 render(
-  <Provider store={store}>
-    <Router>	
-    	<Route exact path="/study/mba/mba-alumni-stories:filter?" component={MainPage} />
+    <Provider store={store}>
+    <Router>  
+      <Route exact path="/study/mba/mba-alumni-stories:filter?" component={MainPage} />
 
     </Router>
   </Provider>,
-  document.getElementById('root')
+    document.getElementById('root')
 )
-
-
