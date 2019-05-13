@@ -47,6 +47,7 @@ module.exports = {
   appIndexJs: resolveApp('src/MBA/index.js'),
   appPackageJson: resolveApp('package.json'),
   appUgSearch: resolveApp('src/UGForm/index.js'),
+  appMSc: resolveApp('src/MSC/index.js'),
   appSrc: resolveApp('src'),
   yarnLockFile: resolveApp('yarn.lock'),
   testsSetup: resolveApp('src/setupTests.js'),

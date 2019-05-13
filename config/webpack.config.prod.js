@@ -58,7 +58,8 @@ module.exports = {
   // In production, we only want to load the polyfills and the app code.
   entry: {
     'main':[require.resolve('./polyfills'), paths.appIndexJs],
-    'ugForm': paths.appUgSearch
+    'ugForm': [require.resolve('./polyfills'), paths.appUgSearch],
+    'mscForm': [require.resolve('./polyfills'), paths.appMSc]
   },
   output: {
     // The build folder.
