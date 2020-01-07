@@ -32,7 +32,7 @@ window.store =store
 render(
   <Provider store={store}>
     <Router>	
-    	<Route exact path="/staging/labs/danny/test-react-js:filter?" component={app} />
+    	<Route exact path="/study/undergraduate/alumni-stories:filter?" component={app} />
 
     </Router>
   </Provider>,
