@@ -45663,7 +45663,7 @@ var MainPage = function (_PureComponent) {
       var _this2 = this;
 
       //load facets info from funnelback and dispatch into redux store
-      fetch('https://www.cass.city.ac.uk/fb/search.html?form=json&collection=CASS-Student-Profiles').then(function (response) {
+      fetch('https://www.bayes.city.ac.uk/fb/search.html?form=json&collection=CASS-Student-Profiles').then(function (response) {
         return response.json();
       }).then(function (json) {
         return _this2.props.dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__actions__["k" /* getFacetsInfo */])(json));
@@ -45999,7 +45999,7 @@ var fetchPosts = function fetchPosts(industry, nationality, programme) {
       pq = '"' + p + '"';
     }
 
-    var url = 'https://www.cass.city.ac.uk/fb/search.html?form=json&collection=CASS-Student-Profiles&meta_I_orsand=' + (i === 'all' ? '' : industry) + '&meta_N_orsand=' + (n === 'all' ? '' : nationality) + '&meta_P_and=' + pq + '&num_ranks=6&sort=title';
+    var url = 'https://www.bayes.city.ac.uk/fb/search.html?form=json&collection=CASS-Student-Profiles&meta_I_orsand=' + (i === 'all' ? '' : industry) + '&meta_N_orsand=' + (n === 'all' ? '' : nationality) + '&meta_P_and=' + pq + '&num_ranks=6&sort=title';
     return fetch(url).then(function (response) {
       return response.json();
     }).then(function json(j) {
@@ -46031,7 +46031,7 @@ var loadMore = function loadMore(industry, nationality, programme, page, perPage
 
     if (perpage < totalPage) {
       var v = perpage + 6;
-      var url = 'https://www.cass.city.ac.uk/fb/search.html?form=json&collection=CASS-Student-Profiles&meta_I_orsand=' + (i === 'all' ? '' : industry) + '&meta_N_orsand=' + (n === 'all' ? '' : nationality) + '&meta_P_and=' + pq + ('&num_ranks=' + v + '&sort=title');
+      var url = 'https://www.bayes.city.ac.uk/fb/search.html?form=json&collection=CASS-Student-Profiles&meta_I_orsand=' + (i === 'all' ? '' : industry) + '&meta_N_orsand=' + (n === 'all' ? '' : nationality) + '&meta_P_and=' + pq + ('&num_ranks=' + v + '&sort=title');
       return fetch(url).then(function (response) {
         return response.json();
       }).then(function json(j) {

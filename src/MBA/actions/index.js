@@ -76,7 +76,7 @@ const fetchPosts = (industry, nationality, programme) => dispatch => {
         pq = '"' + p + '"'
     }
 
-    let url = `https://www.cass.city.ac.uk/fb/search.html?form=json&collection=CASS-Student-Profiles&meta_L_orsand=MBA&meta_I_orsand=${i === 'all' ? '': industry}&meta_N_orsand=${n === 'all' ? '': nationality}&meta_P_and=` + pq + '&num_ranks=6&sort=title'
+    let url = `https://www.bayes.city.ac.uk/fb/search.html?form=json&collection=CASS-Student-Profiles&meta_L_orsand=MBA&meta_I_orsand=${i === 'all' ? '': industry}&meta_N_orsand=${n === 'all' ? '': nationality}&meta_P_and=` + pq + '&num_ranks=6&sort=title'
     return fetch(url)
         .then(response => response.json())
         .then(function json(j) {
@@ -106,7 +106,7 @@ export const loadMore = (industry, nationality, programme, page, perPage, totalP
 
     if (perpage < totalPage) {
         let v = perpage + 6
-        let url = `https://www.cass.city.ac.uk/fb/search.html?form=json&collection=CASS-Student-Profiles&meta_L_orsand=MBA&meta_I_orsand=${i === 'all' ? '': industry}&meta_N_orsand=${n === 'all' ? '': nationality}&meta_P_and=` + pq + `&num_ranks=${v}&sort=title`
+        let url = `https://www.bayes.city.ac.uk/fb/search.html?form=json&collection=CASS-Student-Profiles&meta_L_orsand=MBA&meta_I_orsand=${i === 'all' ? '': industry}&meta_N_orsand=${n === 'all' ? '': nationality}&meta_P_and=` + pq + `&num_ranks=${v}&sort=title`
         return fetch(url)
             .then(response => response.json())
             .then(function json(j) {

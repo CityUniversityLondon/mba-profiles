@@ -60,7 +60,7 @@ class app extends PureComponent {
 
   componentDidMount() {
 
-    fetch(`https://www.cass.city.ac.uk/fb/search.html?form=json&collection=CASS-Student-Profiles&meta_L_orsand=MSC`)
+    fetch(`https://www.bayes.city.ac.uk/fb/search.html?form=json&collection=CASS-Student-Profiles&meta_L_orsand=MSC`)
     .then(response => response.json())
     .then(json => this.props.dispatch(getFacetsInfo(json)))  
  

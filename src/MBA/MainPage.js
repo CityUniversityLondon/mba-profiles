@@ -38,7 +38,7 @@ class MainPage extends PureComponent {
   componentWillMount(){
 
 
-    fetch(`https://www.cass.city.ac.uk/fb/search.html?form=json&collection=CASS-Student-Profiles&meta_L_orsand=MBA`)
+    fetch(`https://www.bayes.city.ac.uk/fb/search.html?form=json&collection=CASS-Student-Profiles&meta_L_orsand=MBA`)
     .then(response => response.json())
     .then(json => this.props.dispatch(getFacetsInfo(json)))  
 
