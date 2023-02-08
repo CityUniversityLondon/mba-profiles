@@ -38,7 +38,7 @@ class MainPage extends PureComponent {
   componentWillMount(){
 
 
-    fetch(`https://www.bayes.city.ac.uk/webservices/funnelback-find-fb16?form=json&collection=city-university~sp-CASS-Student-Profiles&meta_L_orsand=MBA`)
+    fetch(`https://www.bayes.city.ac.uk/webservices/funnelback-find-fb16?form=json&collection=city-university~sp-CASS-Student-Profiles&meta_L_sand=MBA&sort=date`)
     .then(response => response.json())
     .then(json => this.props.dispatch(getFacetsInfo(json)))  
 

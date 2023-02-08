@@ -60,7 +60,7 @@ class app extends PureComponent {
 
   componentDidMount() {
 
-    fetch(`https://www.bayes.city.ac.uk/webservices/funnelback-find-fb16?form=json&collection=city-university~sp-CASS-Student-Profiles&meta_L_orsand=MSC`)
+    fetch(`https://www.bayes.city.ac.uk/webservices/funnelback-find-fb16?form=json&collection=city-university~sp-CASS-Student-Profiles&meta_L_sand=MSC`)
     .then(response => response.json())
     .then(json => this.props.dispatch(getFacetsInfo(json)))  
  
