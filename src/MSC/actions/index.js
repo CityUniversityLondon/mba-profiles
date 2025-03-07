@@ -105,7 +105,7 @@ export const loadMore = (industry, nationality, programme, page, perPage, totalP
 
     if (perpage < totalPage) {
         let v = perpage + 6
-        let url = `https://www.bayes.cicitystgeorgesty.ac.uk/webservices/funnelback-find-dxp?form=json&collection=city~sp-bayes-student-profiles&meta_L_sand=MSC&meta_I_sand=${i === 'all' ? '': industry}&meta_N_sand=${n === 'all' ? '': nationality}&meta_P_and=` + pq + `&num_ranks=${v}&sort=date`
+        let url = `https://www.bayes.citystgeorges.ac.uk/webservices/funnelback-find-dxp?form=json&collection=city~sp-bayes-student-profiles&meta_L_sand=MSC&meta_I_sand=${i === 'all' ? '': industry}&meta_N_sand=${n === 'all' ? '': nationality}&meta_P_and=` + pq + `&num_ranks=${v}&sort=date`
         return fetch(url)
             .then(response => response.json())
             .then(function json(j) { dispatch(receiveProfiles(industry, j));
